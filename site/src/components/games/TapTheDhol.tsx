@@ -12,6 +12,7 @@ const MESSAGES = [
 ];
 
 const BEST_KEY = 'amishi-dhol-best';
+const TOTAL_KEY = 'amishi-dhol-total';
 
 // If this many taps land within this many ms of each other, the screen shakes.
 const FRENZY_TAPS = 4;
@@ -26,11 +27,14 @@ export default function TapTheDhol() {
   const [pulse, setPulse] = useState(false);
   const [rings, setRings] = useState<Ring[]>([]);
   const [best, setBest] = useState(0);
+  const [total, setTotal] = useState(0);
   const recentTaps = useRef<number[]>([]);
 
   useEffect(() => {
-    const stored = Number(window.localStorage.getItem(BEST_KEY) || 0);
-    if (stored > 0) setBest(stored);
+    const storedBest = Number(window.localStorage.getItem(BEST_KEY) || 0);
+    if (storedBest > 0) setBest(storedBest);
+    const storedTotal = Number(window.localStorage.getItem(TOTAL_KEY) || 0);
+    if (storedTotal > 0) setTotal(storedTotal);
   }, []);
 
   function handleTap() {
@@ -47,6 +51,12 @@ export default function TapTheDhol() {
       setBest(next);
       window.localStorage.setItem(BEST_KEY, String(next));
     }
+
+    setTotal((t) => {
+      const nextTotal = t + 1;
+      window.localStorage.setItem(TOTAL_KEY, String(nextTotal));
+      return nextTotal;
+    });
 
     playDholHit();
 
@@ -76,7 +86,12 @@ export default function TapTheDhol() {
         </button>
       </div>
       <div className="tap-dhol-count">{taps} taps</div>
-      {best > 0 && <div className="tap-dhol-best">Your best: {best} taps</div>}
+      {(best > 0 || total > 0) && (
+        <div className="tap-dhol-stats">
+          {best > 0 && <span>Your best: {best} taps</span>}
+          {total > 0 && <span>All-time: {total} taps</span>}
+        </div>
+      )}
       {taps > 0 && <div className="tap-dhol-msg">{MESSAGES[level]}</div>}
     </div>
   );

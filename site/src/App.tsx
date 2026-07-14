@@ -4,6 +4,7 @@ import { RsvpProvider } from './context/RsvpContext';
 import HomePage from './pages/HomePage';
 import StoryDetailPage from './pages/StoryDetailPage';
 import PageFrame from './components/PageFrame';
+import TeamHueOverlay from './components/TeamHueOverlay';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -32,6 +33,7 @@ export default function App() {
     <RsvpProvider>
       <ScrollToTop />
       <PageFrame />
+      <TeamHueOverlay />
       <Routes>
         <Route path="/" element={<HomePage entered={entered} onEnter={() => setEntered(true)} />} />
         <Route path="/story/:slug" element={<StoryDetailPage />} />

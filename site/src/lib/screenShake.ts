@@ -5,5 +5,6 @@ export function triggerScreenShake() {
   el.classList.remove('screen-shake');
   void el.offsetWidth; // force reflow so the animation restarts if already mid-shake
   el.classList.add('screen-shake');
-  window.setTimeout(() => el.classList.remove('screen-shake'), 420);
+  // Must stay >= the screen-shake animation-duration in global.css (.55s).
+  window.setTimeout(() => el.classList.remove('screen-shake'), 570);
 }

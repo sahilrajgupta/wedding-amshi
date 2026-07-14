@@ -16,13 +16,18 @@ body{
 /* Triggered imperatively by src/lib/screenShake.ts (e.g. rapid dhol taps). */
 @keyframes screen-shake{
   0%{transform:translate(0,0) rotate(0);}
-  20%{transform:translate(-6px,3px) rotate(-.3deg);}
-  40%{transform:translate(5px,-4px) rotate(.3deg);}
-  60%{transform:translate(-5px,4px) rotate(-.2deg);}
-  80%{transform:translate(6px,-2px) rotate(.2deg);}
+  10%{transform:translate(-18px,10px) rotate(-1.4deg);}
+  20%{transform:translate(20px,-13px) rotate(1.6deg);}
+  30%{transform:translate(-22px,12px) rotate(-1.8deg);}
+  40%{transform:translate(19px,-14px) rotate(1.5deg);}
+  50%{transform:translate(-20px,13px) rotate(-1.6deg);}
+  60%{transform:translate(17px,-10px) rotate(1.3deg);}
+  70%{transform:translate(-14px,9px) rotate(-1deg);}
+  80%{transform:translate(11px,-7px) rotate(.7deg);}
+  90%{transform:translate(-6px,4px) rotate(-.4deg);}
   100%{transform:translate(0,0) rotate(0);}
 }
-#root.screen-shake{animation:screen-shake .4s ease;}
+#root.screen-shake{animation:screen-shake .55s cubic-bezier(.36,.07,.19,.97);}
 
 .wrap{max-width:1120px;margin:0 auto;padding:0 26px;}
 .eyebrow{font-family:'Jost';font-weight:400;letter-spacing:.42em;text-transform:uppercase;
