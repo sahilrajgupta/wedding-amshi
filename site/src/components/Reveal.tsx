@@ -27,7 +27,10 @@ export default function Reveal({ children, className = '', delay = 0, variant = 
       className={className}
       initial={initial}
       whileInView={animate}
-      viewport={{ once: true, amount: 0.25, margin: '0px 0px -10% 0px' }}
+      // once:false on purpose — pop in on the way down, pop back out on the
+      // way up, replaying every time the element crosses the viewport edge
+      // in either direction, rather than a one-shot reveal.
+      viewport={{ once: false, amount: 0.25, margin: '0px 0px -10% 0px' }}
       transition={{ type: 'spring', stiffness: 140, damping: 16, mass: 0.7, delay }}
     >
       {children}

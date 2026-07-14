@@ -1,10 +1,13 @@
 /*
   Sequence (from click, must stay in sync with the setTimeout in EnvelopeOpener.tsx):
   0.00–0.95s  flap rotates open
-  0.00–0.75s  card pops up out of the pocket, settles, holds
-  0.75–1.35s  held beat — "here is your invitation"
+  0.00–0.70s  card pops up out of the pocket
+  0.70–1.43s  held beat — "here is your invitation" (card just sits there, readable)
   0.90–1.40s  flap/body/seal fade away, no longer needed
-  1.35–2.60s  card grows from card-sized to viewport-filling — the paper *becomes* the page
+  1.43–1.95s  card growth begins gently (scale 1 → 1.6), mini invite text stays put
+  1.95–2.60s  growth accelerates and the paper *becomes* the page (scale 1.6 → 10)
+  1.90–2.60s  glow blooms alongside the growth burst, not before it
+  2.29–2.60s  the card's own mini invite text fades (it's not needed once Hero's real text arrives)
   2.30–3.10s  hero content (see Hero.tsx `hero-entrance`) fades/scales in, overlapping the tail end
   2.45–3.05s  gate itself fades out (colors already match, so this is a near-invisible handoff)
 */
@@ -22,7 +25,9 @@
   position:absolute;width:640px;height:640px;border-radius:50%;
   background:radial-gradient(circle, rgba(255,238,214,.65), transparent 72%);
   filter:blur(10px);opacity:.7;
-  transition:opacity 1.1s ease, transform 1.1s cubic-bezier(.16,1,.3,1);
+  /* Held back until the card's growth burst (see card-emerge 75%→100%) so it
+     doesn't wash the "held beat" out into haze while the card just sits there. */
+  transition:opacity .7s ease 1.9s, transform .7s cubic-bezier(.16,1,.3,1) 1.9s;
 }
 .envelope-gate.opened .envelope-glow{opacity:1;transform:scale(2.6);}
 
@@ -60,29 +65,62 @@
   position:absolute;left:50%;bottom:32px;width:82%;
   transform:translate(-50%, 8px) scale(1);
   background:var(--cream);border-radius:12px;box-shadow:var(--shadow-soft);
-  border:1px solid var(--line);padding:26px 14px;text-align:center;
+  border:1px solid var(--line);padding:22px 16px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;
   z-index:4;opacity:0;will-change:transform;
 }
 .envelope-gate.opened .envelope-card{
-  animation:card-emerge 2.6s cubic-bezier(.22,.61,.36,1) forwards;
+  animation:card-emerge 2.6s ease forwards;
 }
+/*
+  scale() grows *area* quadratically, and the card is already a decent
+  fraction of the viewport — so a small multiplier (~4-6x) is enough to
+  cover most screens. Overshooting the target scale (this used to go to 30x)
+  means "covers the viewport" gets reached a third of the way into the
+  animation, then it just sits there fully blank for the rest — a dead
+  stall, not a slow reveal. Keeping the target modest (10x) and back-loading
+  most of the growth into the final ~25% keeps the "becomes the page"
+  moment right at the end, where it overlaps the hero/gate handoff instead
+  of preceding it by nearly a second of nothing happening.
+*/
 @keyframes card-emerge{
   0%   {transform:translate(-50%, 8px) scale(1); opacity:0; border-radius:12px; box-shadow:var(--shadow-soft);}
   12%  {opacity:1;}
   27%  {transform:translate(-50%, -196px) scale(1); opacity:1; border-radius:12px; box-shadow:var(--shadow-soft);}
-  52%  {transform:translate(-50%, -196px) scale(1); opacity:1; border-radius:12px; box-shadow:var(--shadow-soft);}
-  100% {transform:translate(-50%, -196px) scale(30); opacity:1; border-radius:0px; box-shadow:0 0 0 0 transparent;}
+  55%  {transform:translate(-50%, -196px) scale(1); opacity:1; border-radius:12px; box-shadow:var(--shadow-soft);}
+  75%  {transform:translate(-50%, -196px) scale(1.6); opacity:1; border-radius:11px; box-shadow:var(--shadow-soft);}
+  90%  {transform:translate(-50%, -196px) scale(3.6); opacity:1; border-radius:6px; box-shadow:0 0 0 0 transparent;}
+  100% {transform:translate(-50%, -196px) scale(10); opacity:1; border-radius:0px; box-shadow:0 0 0 0 transparent;}
 }
 
-.envelope-card-mono{font-family:'Vibes';font-size:40px;color:var(--gold);}
-.envelope-card-names{font-family:'CormI';font-style:italic;font-size:18px;color:var(--ink-soft);margin-top:6px;}
-.envelope-gate.opened .envelope-card-mono,
-.envelope-gate.opened .envelope-card-names{
+/*
+  This mirrors Hero.tsx's actual copy (blessing/eyebrow/names/sub/venue) at
+  a fraction of the size, on purpose — it's not a generic placeholder, it's
+  a miniature of the real page, so growing it *is* the page arriving rather
+  than a stand-in card that gets swapped for different content.
+*/
+.envelope-card-blessing{font-family:'Deva';font-size:11px;color:var(--gold);opacity:.85;margin-bottom:4px;}
+.envelope-card-eyebrow{
+  font-family:'Jost';font-weight:400;font-size:8px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold);text-indent:.32em;margin-bottom:4px;
+}
+.envelope-card-names{font-family:'Vibes';font-size:34px;color:var(--rose);line-height:1;margin:2px 0;}
+.envelope-card-sub{font-family:'CormI';font-style:italic;font-size:12px;color:var(--forest);}
+.envelope-card-venue{font-family:'Corm';font-weight:500;font-size:9.5px;color:var(--ink-soft);margin-top:7px;line-height:1.35;}
+
+.envelope-gate.opened .envelope-card-blessing,
+.envelope-gate.opened .envelope-card-eyebrow,
+.envelope-gate.opened .envelope-card-names,
+.envelope-gate.opened .envelope-card-sub,
+.envelope-gate.opened .envelope-card-venue{
   animation:card-text-fade 2.6s ease forwards;
 }
+/* Stays fully visible through almost the entire growth — it only fades right
+   at the end, timed to hand off to Hero's real text (see hero-entrance's
+   2.3s delay in Hero.tsx) once the card is already filling the screen. */
 @keyframes card-text-fade{
-  0%, 45%{opacity:1;}
-  58%, 100%{opacity:0;}
+  0%, 88%{opacity:1;}
+  99%, 100%{opacity:0;}
 }
 
 .envelope-hint{
@@ -104,7 +142,8 @@
 
 @media(prefers-reduced-motion:reduce){
   .envelope-gate,.envelope-flap,.envelope-card,.envelope-glow,.envelope,
-  .envelope-card-mono,.envelope-card-names,.envelope-body{
+  .envelope-card-blessing,.envelope-card-eyebrow,.envelope-card-names,
+  .envelope-card-sub,.envelope-card-venue,.envelope-body{
     transition:none!important;animation:none!important;
   }
   .envelope-hint{animation:none;}

@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { playDholHit } from '../../lib/dholSound';
+import { triggerScreenShake } from '../../lib/screenShake';
 import './TapTheDhol.css';
 
 const MESSAGES = [
@@ -11,6 +13,10 @@ const MESSAGES = [
 
 const BEST_KEY = 'amishi-dhol-best';
 
+// If this many taps land within this many ms of each other, the screen shakes.
+const FRENZY_TAPS = 4;
+const FRENZY_WINDOW_MS = 650;
+
 interface Ring {
   id: number;
 }
@@ -20,6 +26,7 @@ export default function TapTheDhol() {
   const [pulse, setPulse] = useState(false);
   const [rings, setRings] = useState<Ring[]>([]);
   const [best, setBest] = useState(0);
+  const recentTaps = useRef<number[]>([]);
 
   useEffect(() => {
     const stored = Number(window.localStorage.getItem(BEST_KEY) || 0);
@@ -39,6 +46,15 @@ export default function TapTheDhol() {
     if (next > best) {
       setBest(next);
       window.localStorage.setItem(BEST_KEY, String(next));
+    }
+
+    playDholHit();
+
+    const now = Date.now();
+    const recent = [...recentTaps.current, now].slice(-FRENZY_TAPS);
+    recentTaps.current = recent;
+    if (recent.length === FRENZY_TAPS && now - recent[0] < FRENZY_WINDOW_MS) {
+      triggerScreenShake();
     }
   }
 

@@ -53,8 +53,13 @@ export default function EnvelopeOpener({ onDone }: { onDone: () => void }) {
           <div className="envelope-seal">{config.monogram}</div>
         </div>
         <div className="envelope-card">
-          <div className="envelope-card-mono">{config.monogram}</div>
+          <div className="envelope-card-blessing">॥ श्री गणेशाय नमः ॥</div>
+          <div className="envelope-card-eyebrow">Save Our Forever</div>
           <div className="envelope-card-names">{config.names}</div>
+          <div className="envelope-card-sub">are getting married</div>
+          <div className="envelope-card-venue">
+            {config.venueName} · {config.venueRegion}
+          </div>
         </div>
 
         {!opened && <div className="envelope-hint">tap to open</div>}
