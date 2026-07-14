@@ -1,0 +1,31 @@
+:root{
+  /* base paper/ink */
+  --paper:#fdf6f0;
+  --cream:#fffaf5;
+  --ink:#4a3f4d;
+  --ink-soft:#7a6b78;
+
+  /* anchors */
+  --sage:#a8b89a;
+  --gold:#d4a857;
+  --gold-light:#e6c584;
+
+  /* pastel hue ramp */
+  --peach:#f6c9a8;
+  --pink:#f3b6c2;
+  --purple:#c9b6e0;
+  --green:#b8d4b0;
+  --orange:#f0b184;
+  --blue:#a9c8e0;
+  --turquoise:#9fd6ce;
+
+  /* semantic aliases (keep old-site variable names working) */
+  --rose:var(--pink);
+  --rose-soft:#e8a9b8;
+  --forest:var(--sage);
+  --teal:var(--turquoise);
+  --line:#ecd9cf;
+
+  --shadow-soft:0 10px 30px rgba(180,140,150,.16);
+  --shadow-lift:0 16px 40px rgba(180,140,150,.22);
+}

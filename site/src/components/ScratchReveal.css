@@ -1,0 +1,15 @@
+.scratch-reveal{
+  position:relative;width:100%;border-radius:10px;
+  box-shadow:var(--shadow-soft);overflow:hidden;border:1px solid var(--line);
+}
+.scratch-under{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--cream);padding:14px;
+}
+.scratch-under img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;padding:0;
+}
+.scratch-reveal canvas{
+  position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none;transition:opacity .5s;
+}
+.scratch-reveal.done canvas{opacity:0;pointer-events:none;}

@@ -1,0 +1,18 @@
+.count{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:22px;}
+.count .tile{
+  background:linear-gradient(160deg, var(--peach), var(--pink));
+  border:1px solid var(--line);border-radius:14px;padding:22px 8px;
+  width:120px;box-shadow:var(--shadow-soft);
+}
+.count .num{font-family:'Jost';font-weight:500;font-size:46px;color:var(--ink);line-height:1;}
+.count .lab{
+  font-family:'Jost';font-weight:400;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:#7a5540;margin-top:8px;
+}
+.count-note{
+  text-align:center;font-family:'CormI';font-style:italic;font-size:19px;color:var(--ink-soft);margin-top:22px;
+}
+.countdown-here{
+  text-align:center;font-family:'Vibes';font-size:52px;color:var(--gold);
+}
+@media(max-width:520px){.count .tile{width:44%;}}

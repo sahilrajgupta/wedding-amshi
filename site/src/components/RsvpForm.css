@@ -1,0 +1,30 @@
+.rsvp-card{
+  max-width:560px;margin:30px auto 0;background:var(--paper);border:1px solid var(--line);
+  border-radius:14px;padding:28px;box-shadow:var(--shadow-soft);
+}
+.rsvp-field{margin-bottom:16px;text-align:left;}
+.rsvp-field label{
+  display:block;font-family:'Jost';font-weight:500;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);margin-bottom:6px;
+}
+.rsvp-field input,.rsvp-field textarea{
+  width:100%;font-family:'Corm';font-size:17px;padding:10px 12px;border-radius:8px;
+  border:1.5px solid var(--line);background:var(--cream);color:var(--ink);resize:vertical;
+}
+.rsvp-field input:focus,.rsvp-field textarea:focus{outline:2px solid var(--gold-light);outline-offset:1px;}
+.rsvp-summary{
+  display:flex;gap:14px;flex-wrap:wrap;font-family:'Jost';font-size:12.5px;color:var(--forest);
+  margin-bottom:16px;text-transform:capitalize;
+}
+.btn-whatsapp{
+  width:100%;padding:16px;border-radius:999px;border:none;cursor:pointer;
+  font-family:'Jost';font-weight:600;font-size:16px;letter-spacing:.02em;
+  background:linear-gradient(135deg, #6fce8f, #3fa96a);color:#fff;
+  box-shadow:var(--shadow-soft);transition:transform .15s ease;
+}
+.btn-whatsapp:hover:not(:disabled){transform:translateY(-2px);}
+.btn-whatsapp:disabled{background:#b3a89a;cursor:not-allowed;}
+.rsvp-sent{margin-top:14px;font-family:'CormI';font-style:italic;color:var(--forest);}
+.rsvp-note{
+  text-align:center;font-family:'CormI';font-style:italic;font-size:18px;color:var(--ink-soft);margin-top:22px;
+}

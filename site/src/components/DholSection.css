@@ -1,0 +1,9 @@
+.dhol-section{
+  text-align:center;
+  background:
+    radial-gradient(70% 60% at 50% 30%, rgba(240,177,132,.28), transparent 65%),
+    radial-gradient(60% 50% at 20% 80%, rgba(201,182,224,.22), transparent 60%),
+    var(--paper);
+  overflow:hidden;
+}
+.dhol-section .section-title{margin-bottom:8px;}

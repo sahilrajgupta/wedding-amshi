@@ -1,0 +1,13 @@
+.petals-layer{
+  position:fixed;top:0;left:0;width:100%;height:100vh;z-index:40;pointer-events:none;overflow:hidden;
+}
+.petal{
+  position:absolute;top:-5%;border-radius:80% 0 80% 0;opacity:.75;
+  filter:drop-shadow(0 2px 4px rgba(120,70,90,.15));
+}
+@keyframes petal-fall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:0;}
+  8%{opacity:.75;}
+  92%{opacity:.6;}
+  100%{transform:translate(var(--drift), 108vh) rotate(var(--spin));opacity:0;}
+}

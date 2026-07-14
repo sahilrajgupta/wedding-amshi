@@ -1,0 +1,31 @@
+@import './theme.css';
+@import './fonts.css';
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Corm',Georgia,serif; color:var(--ink); background:var(--paper);
+  line-height:1.6; overflow-x:hidden;
+  background-image:
+    radial-gradient(60% 40% at 10% 0%, rgba(243,182,194,.16), transparent 60%),
+    radial-gradient(50% 35% at 95% 10%, rgba(169,200,224,.14), transparent 60%),
+    radial-gradient(45% 35% at 50% 100%, rgba(184,212,176,.14), transparent 60%);
+}
+#root{position:relative;overflow-x:hidden;}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px;}
+.eyebrow{font-family:'Jost';font-weight:400;letter-spacing:.42em;text-transform:uppercase;
+  font-size:14px;color:var(--gold);text-indent:.42em;}
+.script{font-family:'Vibes';color:var(--gold);line-height:.9;}
+.serif-h{font-family:'Corm';font-weight:600;color:var(--rose);}
+.divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:18px 0;color:var(--gold);}
+.divider::before,.divider::after{content:"";height:1px;width:60px;background:var(--line);}
+
+section{position:relative;padding:96px 0;}
+.section-cream{background:var(--cream);}
+.section-title{text-align:center;margin-bottom:14px;}
+.section-title .eyebrow{display:block;margin-bottom:8px;}
+.section-title h2{font-family:'Vibes';font-size:clamp(42px,7vw,68px);color:var(--gold);line-height:1;}
+.section-title p{font-family:'CormI';font-style:italic;font-size:20px;color:var(--ink-soft);margin-top:8px;}
+
+button{font:inherit;}

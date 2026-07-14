@@ -1,0 +1,46 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What this is
+
+A wedding invitation website (Shikha & Amit, 17–18 Jan 2027, Jim Corbett). The **active project is [site/](site/)** — a React + Vite rebuild (pastel theme, tap-to-open envelope, scratch-to-reveal, mini-games, WhatsApp/Google-Sheet RSVP). See [site/README.md](site/README.md) and [site/SETUP.md](site/SETUP.md) for how to develop and configure it. Everything below describes the **archived v1**, kept at the repo root untouched for reference.
+
+## Repository layout
+
+- [site/](site/) — the current app. React + TypeScript + Vite. Start here for any new work.
+- [index.html](index.html) — archived v1: the entire old site (markup, CSS, JS all inline in one file). No longer the active target for changes.
+- `shikha-amit-wedding-site.zip` — archived v1's packaged snapshot for distribution/upload. Contains `shikha-amit-wedding/index.html` (byte-identical to the root `index.html`) plus `fonts/` and `img/` assets referenced by relative paths (`fonts/*.ttf`, `img/*.jpg`). These same font/image assets were unzipped into `site/public/` for the v2 rebuild.
+- `PREVIEW.png` — a rendered screenshot/preview of the old v1 page.
+
+The top-level `index.html` has no local `fonts/` or `img/` directories next to it — those assets only exist inside the zip. To preview the page with fonts/images loading correctly, work from an unzipped copy of `shikha-amit-wedding-site.zip` (open `shikha-amit-wedding/index.html` in that extracted tree), or extract the zip's `fonts/` and `img/` folders next to `index.html`.
+
+**After editing `index.html`, keep the copy inside the zip in sync** (or regenerate the zip) since they're meant to be identical — the zip is what actually gets deployed/uploaded. This only applies if you're intentionally touching the archived v1; new work belongs in `site/`.
+
+## Working with the archived v1 (index.html)
+
+- No build/lint/test tooling exists. Verify changes by opening the HTML directly in a browser.
+- All CSS is in one `<style>` block using CSS custom properties defined on `:root` (`--paper`, `--ink`, `--gold`, `--rose`, `--forest`, `--teal`, etc.) — reuse these variables rather than introducing new colors.
+- All JS is in one `<script>` block at the bottom, organized as small IIFEs/sections by feature: mobile nav toggle, countdown timer, scroll-reveal (`IntersectionObserver`), firefly particle animation, canvas-based "scratch to reveal" effect, and RSVP iframe embed.
+- Two config values are meant to be edited directly in the script rather than templated:
+  - `TARGET` — the countdown target date/time.
+  - `RSVP_FORM_EMBED_URL` — paste a Google Form embed URL here to activate the RSVP iframe (see the placeholder text in the `#rsvp` section).
+- Respects `prefers-reduced-motion`: fireflies, scroll animations, and the scratch-reveal canvas all have reduced-motion fallbacks — preserve this when touching animation code.
+- Fonts are self-hosted via `@font-face` (`fonts/*.ttf`) — Vibes (script), Corm/CormI (serif body, variable font), Jost (UI/labels), Deva (Devanagari blessing text). No CDN/webfont dependency.
+
+## Working with site/ (active project)
+
+- Commands (run from `site/`): `npm run dev`, `npm run build` (`tsc -b && vite build`), `npm run preview`, `npm run lint` (oxlint).
+- **Config/placeholders**: `src/config.ts` reads `VITE_*` env vars (WhatsApp number, RSVP deadline, venue maps link, Apps Script URL) with safe fallbacks — the app builds and runs with none of them set. Components check `isPlaceholder.*` and show a "not configured yet" state rather than breaking (e.g. the WhatsApp CTA disables itself, the Directions button flags itself). Don't hardcode these values elsewhere — always go through `config.ts`.
+- **RSVP data flow**: `TeamPick` and `GettingThere` write into `RsvpContext` (`src/context/RsvpContext.tsx`); `RsvpForm` reads that context at submit time and fires both `lib/whatsapp.ts` (opens a prefilled `wa.me` link) and `lib/sheet.ts` (fire-and-forget POST to the Google Apps Script endpoint, `mode:'no-cors'`, catches its own errors) from one handler. Keep both firing together — don't let one block the other. `PetalsLayer` also reads `teamPick` from the same context to swap its falling-petal color palette (warm pink/peach for "ladki", cool blue/green for "ladke", mixed pastel default) — see `PALETTES` in `src/components/ambient/PetalsLayer.tsx`.
+- **`ScratchReveal`** (`src/components/ScratchReveal.tsx`) is the one reusable canvas "scratch to reveal" component — used by `Hero` (fixed `height`) and `EventCard` (`aspectRatio` instead, so it fills the image's box). Don't fork a second copy of the canvas logic.
+- **CSS**: one plain `.css` file per component, colocated and imported directly (no CSS Modules). Shared tokens live in `src/styles/theme.css` — the variable *names* (`--rose`, `--forest`, `--teal`, `--gold`, `--paper`, `--cream`, `--ink`, `--line`) are kept as semantic aliases onto the new pastel values on purpose, so don't rename them without checking every consumer.
+- **Ambient layers** (`src/components/ambient/`: `FirefliesLayer`, `PetalsLayer`, `DiyasLayer`) all gate on `useReducedMotion()` (`src/lib/reducedMotion.ts`) and render nothing when reduced motion is on — preserve this on any new animated component.
+- **Scroll animation**: `Reveal.tsx` (framer-motion `whileInView`, spring easing, `variant="pop"` default / `"soft"` for reading-heavy content like story paragraphs) is the scroll-pop primitive used throughout — reuse it instead of a one-off `IntersectionObserver`. `Hero.tsx` additionally uses framer-motion's `useScroll`/`useTransform` for a parallax effect on the hills SVG and hero content as you scroll past it; both skip entirely under reduced motion.
+- **Routing**: React Router (`BrowserRouter` in `main.tsx`). `App.tsx` owns `<Routes>` (`/` → `HomePage`, `/story/:slug` → `StoryDetailPage`) plus a `ScrollToTop` helper that scrolls to a hash target (e.g. `/#story`) or the page top on every navigation. The envelope-opened (`entered`) flag is deliberately owned by `App`, not `HomePage` — `HomePage` remounts on every route change (e.g. navigating back from a story page), so state that must survive that has to live above the `<Routes>`.
+- **Envelope open lifecycle** (`EnvelopeOpener.tsx` + `HomePage.tsx`): this is the one place with a non-obvious React-batching gotcha. `HomePage` captures `useState(entered)` once at mount into `skipEnvelope` — deliberately *not* a live re-render on every `entered` change. Reasoning: on the very first open, clicking the envelope flips `entered` true in `App` in the same batch as the component's own internal `opened` state; if the parent instead conditionally unmounted `<EnvelopeOpener>` on `entered` becoming true, React 18 batching would rip it out of the tree before its own CSS fade-out (`.envelope-gate.opened`, ~1.8s) ever painted. So `EnvelopeOpener` always stays mounted for a `HomePage` instance that started with `entered=false`, and unmounts *itself* (internal `hidden` state, `setTimeout`) once its animation finishes. Only a `HomePage` instance that was already `entered` at mount (e.g. remounted by navigating back from a story page) skips rendering it at all. Don't "simplify" this to `{!entered && <EnvelopeOpener/>}` — that's the bug this avoids.
+- **Page frame**: `PageFrame.tsx` is a fixed, `pointer-events:none`, low-`z-index` (`5`, below `Nav`'s `50` and `PetalsLayer`'s `40` on purpose so the nav bar visually masks the seam where the frame's top edge would otherwise cut across it) gold double-border with corner accents, mounted once in `App.tsx` above `<Routes>` so it's present on every route. Purely decorative — it does not affect layout/padding of content underneath.
+- **Story detail pages**: `src/data/story.ts` holds a `slug` and `details[]` (expandable narrative paragraphs) per chapter, in addition to the short `note` shown on the homepage timeline. `StoryTimeline.tsx` links each stop to `/story/:slug`; `StoryDetailPage.tsx` renders the full chapter with prev/next pager and a link back to `/#story`. The `details[]` copy is placeholder text in the couple's voice — flagged in the file for the couple to personalize with real specifics before wide distribution, not meant to stay as-is.
+- **Grid + `margin: auto` gotcha**: a CSS grid item with `margin: 0 auto` for centering loses Grid's default stretch sizing and collapses to its content width — this broke `EventCard`'s image box once already (see `.ev-img` in `EventCard.css`, which now pairs `margin:0 auto` with an explicit `width:100%`). Watch for this pattern anywhere a grid item both centers itself and contains a `width:100%`/`aspect-ratio` child.
+- The Apps Script side (`apps-script/Code.gs`) is not part of the Vite build — it's deployed manually by the couple in their own Google account (see `SETUP.md`). Don't expect `npm run build` to touch it.
+- Deploy target is Vercel with **Root Directory = `site`** (the repo root is not the app root). `vercel.json` has the SPA rewrite (`/(.*) → /index.html`) required for React Router's client-side routes (e.g. `/story/chennai-2021`) to resolve on a hard refresh or direct link — if you switch hosts, replicate that rewrite rule there too.

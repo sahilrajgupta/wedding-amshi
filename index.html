@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shikha & Amit · 17–18 January 2027 · Jim Corbett</title>
+<style>
+@font-face{font-family:'Vibes';src:url('fonts/GreatVibes-Regular.ttf');font-display:swap;}
+@font-face{font-family:'Corm';src:url('fonts/Cormorant-VF.ttf');font-weight:300 700;font-display:swap;}
+@font-face{font-family:'CormI';src:url('fonts/Cormorant-Italic-VF.ttf');font-weight:300 600;font-style:italic;font-display:swap;}
+@font-face{font-family:'Jost';src:url('fonts/Jost-VF.ttf');font-weight:300 600;font-display:swap;}
+@font-face{font-family:'Deva';src:url('fonts/Tiro-Deva.ttf');font-display:swap;}
+
+:root{
+  --paper:#f6efdf; --cream:#fbf7ec; --ink:#3f362a; --ink-soft:#6a5c48;
+  --forest:#465440; --sage:#7f8c6a; --gold:#b3842c; 
+  --gold-light:#caa552; --rose:#8a3f4c; --rose-soft:#a86470; --teal:#265d5a;
+  --line:#dcc9a4;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Corm',Georgia,serif; color:var(--ink); background:var(--paper);
+  line-height:1.6; overflow-x:hidden;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px;}
+.eyebrow{font-family:'Jost';font-weight:400;letter-spacing:.42em;text-transform:uppercase;
+  font-size:14px;color:var(--gold);text-indent:.42em;}
+.script{font-family:'Vibes';color:var(--gold);line-height:.9;}
+.serif-h{font-family:'Corm';font-weight:600;color:var(--rose);}
+.divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:18px 0;color:var(--gold);}
+.divider::before,.divider::after{content:"";height:1px;width:60px;background:var(--line);}
+.leaf{width:26px;height:14px;opacity:.85;}
+
+/* ---------- NAV ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;
+  background:rgba(246,239,223,.86);backdrop-filter:blur(9px);border-bottom:1px solid rgba(179,132,44,.18);}
+nav .inner{width:100%;max-width:1120px;display:flex;align-items:center;justify-content:space-between;padding:12px 26px;}
+nav .mono{font-family:'Vibes';font-size:30px;color:var(--gold);line-height:1;}
+nav ul{list-style:none;display:flex;gap:26px;}
+nav a{font-family:'Jost';font-weight:400;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);text-decoration:none;transition:color .2s;}
+nav a:hover{color:var(--gold);}
+.nav-toggle{display:none;background:none;border:none;font-size:24px;color:var(--forest);cursor:pointer;}
+@media(max-width:760px){
+  nav ul{position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--cream);
+    border-bottom:1px solid var(--line);max-height:0;overflow:hidden;transition:max-height .3s;}
+  nav ul.open{max-height:320px;}
+  nav li{border-top:1px solid rgba(179,132,44,.12);}
+  nav a{display:block;padding:14px 26px;}
+  .nav-toggle{display:block;}
+}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:120px 24px 80px;overflow:hidden;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #fdfaf1 0%, #f4eeddff 42%, #eae4cf 100%),
+    linear-gradient(#f6efdf,#f6efdf);}
+.hero .forest{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;z-index:0;opacity:.9;}
+.hero-content{position:relative;z-index:3;max-width:760px;}
+.blessing{font-family:'Deva';font-size:20px;color:var(--gold);opacity:.8;margin-bottom:20px;}
+.hero h1{font-family:'Vibes';font-size:clamp(62px,11vw,128px);color:var(--rose);margin:6px 0 2px;
+  text-shadow:0 2px 20px rgba(138,63,76,.12);}
+.hero .sub{font-family:'CormI';font-style:italic;font-size:clamp(22px,3.4vw,32px);color:var(--forest);}
+.hero .place{font-family:'Corm';font-weight:500;letter-spacing:.02em;font-size:clamp(17px,2.4vw,21px);
+  color:var(--ink-soft);margin-top:6px;}
+
+/* scratch reveal */
+.reveal{position:relative;width:min(460px,86vw);height:132px;margin:30px auto 8px;border-radius:10px;
+  box-shadow:0 10px 30px rgba(120,90,40,.18);overflow:hidden;border:1px solid var(--line);}
+.reveal .under{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--cream);padding:14px;}
+.reveal .under .d{font-family:'Corm';font-weight:700;font-size:30px;color:var(--rose);letter-spacing:.01em;}
+.reveal .under .v{font-family:'CormI';font-style:italic;font-size:19px;color:var(--forest);margin-top:4px;}
+.reveal canvas{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none;transition:opacity .5s;}
+.reveal.done canvas{opacity:0;pointer-events:none;}
+.reveal-hint{font-family:'Jost';font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+  margin-top:4px;}
+.scrollcue{margin-top:26px;font-size:26px;color:var(--gold);animation:bob 2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* fairy lights + fireflies */
+.lights{position:absolute;top:0;left:0;width:100%;height:180px;z-index:2;pointer-events:none;}
+.firefly{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffe6a3;
+  box-shadow:0 0 8px 2px rgba(255,214,120,.8);opacity:0;z-index:1;}
+@keyframes fly{0%{transform:translate(0,0);opacity:0}10%{opacity:.9}50%{opacity:.5}
+  90%{opacity:.8}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+
+/* ---------- SECTIONS ---------- */
+section{position:relative;padding:96px 0;}
+.section-cream{background:var(--cream);}
+.section-title{text-align:center;margin-bottom:14px;}
+.section-title .eyebrow{display:block;margin-bottom:8px;}
+.section-title h2{font-family:'Vibes';font-size:clamp(42px,7vw,68px);color:var(--gold);line-height:1;}
+.section-title p{font-family:'CormI';font-style:italic;font-size:20px;color:var(--ink-soft);margin-top:8px;}
+.reveal-up{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease;}
+.reveal-up.in{opacity:1;transform:none;}
+
+/* countdown */
+.count{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:22px;}
+.count .tile{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px 8px;
+  width:120px;box-shadow:0 8px 22px rgba(120,90,40,.08);}
+.count .num{font-family:'Jost';font-weight:500;font-size:46px;color:var(--forest);line-height:1;}
+.count .lab{font-family:'Jost';font-weight:400;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-top:8px;}
+.count-note{text-align:center;font-family:'CormI';font-style:italic;font-size:19px;color:var(--ink-soft);margin-top:22px;}
+@media(max-width:520px){.count .tile{width:44%;}}
+
+/* journey */
+.timeline{position:relative;max-width:760px;margin:36px auto 0;}
+.timeline::before{content:"";position:absolute;left:50%;top:6px;bottom:6px;width:2px;
+  background:repeating-linear-gradient(var(--line) 0 6px,transparent 6px 14px);transform:translateX(-50%);}
+.stop{position:relative;width:50%;padding:14px 34px;margin:6px 0;}
+.stop:nth-child(odd){left:0;text-align:right;}
+.stop:nth-child(even){left:50%;text-align:left;}
+.stop .dot{position:absolute;top:20px;width:15px;height:15px;border-radius:50%;background:var(--gold);
+  border:3px solid var(--cream);box-shadow:0 0 0 2px var(--gold);}
+.stop:nth-child(odd) .dot{right:-8px;}
+.stop:nth-child(even) .dot{left:-8px;}
+.stop .yr{font-family:'Jost';font-weight:500;font-size:13px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;}
+.stop .city{font-family:'Corm';font-weight:600;font-size:28px;color:var(--rose);line-height:1.1;}
+.stop .note{font-family:'CormI';font-style:italic;font-size:18px;color:var(--ink-soft);}
+.stop.final .city{color:var(--teal);}
+.constant{text-align:center;font-family:'CormI';font-style:italic;font-size:19px;color:var(--forest);
+  margin:30px auto 0;max-width:560px;}
+@media(max-width:640px){
+  .timeline::before{left:9px;}
+  .stop{width:100%;left:0!important;text-align:left!important;padding:12px 12px 12px 40px;}
+  .stop .dot{left:2px!important;right:auto!important;}
+}
+
+/* events */
+.event{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin:56px 0;}
+.event:nth-child(even) .ev-img{order:2;}
+.ev-img{border-radius:12px;overflow:hidden;box-shadow:0 16px 40px rgba(90,70,40,.22);
+  border:6px solid #fff;background:var(--cream);}
+.ev-img img{display:block;width:100%;height:auto;}
+.ev-img.placeholder{aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(120% 90% at 50% 0,#fbf5e8,#eee3c8);color:var(--sage);font-family:'Vibes';font-size:44px;}
+.ev-body .tag{font-family:'Jost';font-weight:500;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);}
+.ev-body h3{font-family:'Corm';font-weight:700;font-size:clamp(30px,4vw,42px);color:var(--rose);line-height:1.05;margin:6px 0;}
+.ev-body .when{font-family:'Corm';font-weight:600;font-size:21px;color:var(--forest);}
+.ev-body .lede{font-family:'CormI';font-style:italic;font-size:20px;color:var(--ink-soft);margin:10px 0 16px;}
+.ev-body dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin-top:10px;}
+.ev-body dt{font-family:'Jost';font-weight:500;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--teal);padding-top:5px;}
+.ev-body dd{font-size:18.5px;color:var(--ink);}
+.ev-body .quirk{margin-top:16px;padding:12px 16px;border-left:3px solid var(--gold);background:rgba(179,132,44,.07);
+  font-family:'CormI';font-style:italic;font-size:18px;color:var(--forest);border-radius:0 8px 8px 0;}
+@media(max-width:760px){
+  .event{grid-template-columns:1fr;gap:22px;margin:44px 0;}
+  .event:nth-child(even) .ev-img{order:0;}
+  .ev-img{max-width:420px;margin:0 auto;}
+}
+
+/* rsvp */
+.rsvp-card{max-width:720px;margin:30px auto 0;background:var(--paper);border:1px solid var(--line);
+  border-radius:14px;padding:20px;box-shadow:0 12px 30px rgba(120,90,40,.1);}
+.rsvp-mount iframe{width:100%;min-height:760px;border:0;border-radius:8px;background:#fff;}
+.rsvp-placeholder{text-align:center;padding:44px 20px;color:var(--ink-soft);font-family:'CormI';font-style:italic;font-size:19px;}
+.rsvp-placeholder code{font-family:monospace;font-style:normal;background:#efe6cf;padding:2px 7px;border-radius:5px;font-size:15px;color:var(--forest);}
+.rsvp-note{text-align:center;font-family:'CormI';font-style:italic;font-size:18px;color:var(--ink-soft);margin-top:18px;}
+
+/* footer */
+footer{background:var(--forest);color:#f3ead4;text-align:center;padding:64px 24px 48px;}
+footer .hash{font-family:'Vibes';font-size:58px;color:#e9cf94;line-height:1;}
+footer .love{font-family:'CormI';font-style:italic;font-size:22px;margin-top:10px;color:#f3ead4;}
+footer .meta{font-family:'Jost';font-weight:300;font-size:13px;letter-spacing:.2em;text-transform:uppercase;
+  color:#c7b58a;margin-top:20px;line-height:2;}
+footer .trip{font-family:'Corm';font-size:17px;color:#dfd0aa;margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto;}
+footer .div-f{color:#8ea07a;margin:22px auto;}
+
+@media(prefers-reduced-motion:reduce){
+  .firefly,.scrollcue{animation:none!important;}
+  .reveal-up{opacity:1;transform:none;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <span class="mono">S &amp; A</span>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+    <ul id="menu">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#countdown">Countdown</a></li>
+      <li><a href="#story">Our Story</a></li>
+      <li><a href="#weekend">The Weekend</a></li>
+      <li><a href="#rsvp">RSVP</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="home">
+  <div class="lights" id="lights"></div>
+  <svg class="forest" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cdd3b4"/><stop offset="1" stop-color="#b9c29c"/></linearGradient>
+      <linearGradient id="river" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe7e0"/><stop offset="1" stop-color="#c3d3cf"/></linearGradient>
+    </defs>
+    <path d="M0,190 C260,120 420,150 720,150 C1010,150 1180,110 1440,180 L1440,320 L0,320 Z" fill="url(#hill)" opacity="0.5"/>
+    <path d="M540,320 C620,230 820,230 900,320 Z" fill="url(#river)" opacity="0.8"/>
+    <g fill="#6f7d55" opacity="0.9">
+      <path d="M0,320 C60,250 90,250 120,220 C150,250 180,250 240,320 Z"/>
+      <path d="M120,320 C170,240 210,250 250,210 C290,250 330,255 380,320 Z" opacity="0.85"/>
+      <path d="M1440,320 C1380,250 1350,250 1320,220 C1290,250 1260,250 1200,320 Z"/>
+      <path d="M1320,320 C1270,240 1230,250 1190,210 C1150,250 1110,255 1060,320 Z" opacity="0.85"/>
+    </g>
+    <g fill="#556343" opacity="0.85">
+      <path d="M0,320 C40,270 70,275 95,250 C120,275 150,275 200,320 Z"/>
+      <path d="M1440,320 C1400,270 1370,275 1345,250 C1320,275 1290,275 1240,320 Z"/>
+    </g>
+  </svg>
+
+  <div class="hero-content reveal-up in">
+    <div class="blessing">॥ श्री गणेशाय नमः ॥</div>
+    <div class="eyebrow">Save Our Forever</div>
+    <h1>Shikha &amp; Amit</h1>
+    <div class="sub">are getting married</div>
+    <div class="place">Mango Bloom Riverview Resort · Jim Corbett, Uttarakhand</div>
+
+    <div class="reveal" id="reveal">
+      <div class="under">
+        <div class="d">17–18 January 2027</div>
+        <div class="v">two days by the river · come as you are, leave as family</div>
+      </div>
+      <canvas id="scratch"></canvas>
+    </div>
+    <div class="reveal-hint" id="revealHint">✦ swipe the gold to unveil ✦</div>
+
+    <div class="scrollcue">⌄</div>
+  </div>
+</header>
+
+<!-- ================= COUNTDOWN ================= -->
+<section id="countdown">
+  <div class="wrap">
+    <div class="section-title reveal-up">
+      <span class="eyebrow">Mark your calendar</span>
+      <h2>The weekend begins in</h2>
+    </div>
+    <div class="count reveal-up" id="count">
+      <div class="tile"><div class="num" id="cd-d">—</div><div class="lab">Days</div></div>
+      <div class="tile"><div class="num" id="cd-h">—</div><div class="lab">Hours</div></div>
+      <div class="tile"><div class="num" id="cd-m">—</div><div class="lab">Minutes</div></div>
+      <div class="tile"><div class="num" id="cd-s">—</div><div class="lab">Seconds</div></div>
+    </div>
+    <p class="count-note reveal-up">…until the first fistful of turmeric flies at the Haldi. 💛</p>
+  </div>
+</section>
+
+<!-- ================= OUR STORY ================= -->
+<section id="story" class="section-cream">
+  <div class="wrap">
+    <div class="section-title reveal-up">
+      <span class="eyebrow">Six cities · five years · one yes</span>
+      <h2>The long way to the same shore</h2>
+      <p>She kept moving. He was her constant. Every road led to the river.</p>
+    </div>
+    <div class="timeline">
+      <div class="stop reveal-up"><span class="dot"></span><div class="yr">2021 · Chennai</div><div class="city">Where it began</div><div class="note">A spark, an ocean apart — she in Chennai, he in the States.</div></div>
+      <div class="stop reveal-up"><span class="dot"></span><div class="yr">2024 · London</div><div class="city">A near miss</div><div class="note">Same feelings, wrong timing. She in London, he in Boston.</div></div>
+      <div class="stop reveal-up"><span class="dot"></span><div class="yr">2025 · Washington D.C.</div><div class="city">Still not yet</div><div class="note">Closer this time — but the tide hadn't turned.</div></div>
+      <div class="stop reveal-up"><span class="dot"></span><div class="yr">2026 · Orlando</div><div class="city">Undeniable</div><div class="note">This is where love stopped pretending. She asked. He was already sure.</div></div>
+      <div class="stop reveal-up"><span class="dot"></span><div class="yr">2026 · Miami</div><div class="city">Forever, begun</div><div class="note">Engaged by the sea, in the city where it all made sense.</div></div>
+      <div class="stop final reveal-up"><span class="dot"></span><div class="yr">Jan 2027 · Jim Corbett</div><div class="city">Home, at last</div><div class="note">To the river, the forest, and each other — for good.</div></div>
+    </div>
+    <p class="constant reveal-up">Through every city and every year, Boston stayed still — Amit, the fixed point Shikha kept finding her way back to.</p>
+  </div>
+</section>
+
+<!-- ================= THE WEEKEND ================= -->
+<section id="weekend">
+  <div class="wrap">
+    <div class="section-title reveal-up">
+      <span class="eyebrow">17 – 18 January 2027 · by the Kosi</span>
+      <h2>The Weekend</h2>
+      <p>Two days, one jungle, and zero chance you'll want to leave.</p>
+    </div>
+
+    <!-- HALDI -->
+    <div class="event reveal-up">
+      <div class="ev-img"><img src="img/haldi.jpg" alt="Haldi & the Great Corbett Olympics"></div>
+      <div class="ev-body">
+        <div class="tag">Day One · Afternoon</div>
+        <h3>Haldi &amp; the Great Corbett Olympics</h3>
+        <div class="when">17 January · 2:00 PM onwards</div>
+        <div class="lede">Sunshine, turmeric, and full-blown chaos by the river.</div>
+        <dl>
+          <dt>Dress</dt><dd>Every shade of yellow you own — marigold, mustard, sunflower, lemon. The louder, the better.</dd>
+          <dt>Entry</dt><dd>No shades, no entry 😎 — it's about to get bright, yellow, and gloriously messy.</dd>
+          <dt>Games</dt><dd><em>Ladke Wale vs Ladki Wale.</em> Tug of war, push-up face-offs, matka phod, lemon-'n'-spoon, sack race.</dd>
+        </dl>
+        <div class="quirk">Warning: you'll arrive a guest and leave as turmeric.</div>
+      </div>
+    </div>
+
+    <!-- MEHENDI + SANGEET -->
+    <div class="event reveal-up">
+      <div class="ev-img"><img src="img/mehendi-sangeet.jpg" alt="Mehendi Sundowner & Sangeet Night"></div>
+      <div class="ev-body">
+        <div class="tag">Day One · Evening into Night</div>
+        <h3>Mehendi Sundowner &amp; Sangeet Night</h3>
+        <div class="when">17 January · 5:00 PM onwards</div>
+        <div class="lede">Golden hour by the water, dissolving into a starlit dance floor.</div>
+        <dl>
+          <dt>5:00–6:45</dt><dd>Mehendi, chai, mocktails, snacks &amp; golden-hour photos.</dd>
+          <dt>7:00–10:00</dt><dd>Sangeet — performances, dancing &amp; dinner under the stars.</dd>
+          <dt>Dress</dt><dd>Mehendi — greens &amp; peach (sage, olive, bottle-green, coral). Sangeet — your call, wear your boldest.</dd>
+          <dt>Entry</dt><dd>Mehendi: nails done, phone charged — your hands are about to go out of service. Sangeet: bring your dance game.</dd>
+        </dl>
+        <div class="quirk">The henna needs 90 minutes to set — that's your window to eat, flirt, and warm up your hips.</div>
+      </div>
+    </div>
+
+    <!-- WEDDING -->
+    <div class="event reveal-up">
+      <div class="ev-img"><img src="img/save-the-weekend.jpg" alt="The Wedding by the river"></div>
+      <div class="ev-body">
+        <div class="tag">Day Two · The main event</div>
+        <h3>The Wedding</h3>
+        <div class="when">18 January · games from the afternoon, pheras in the evening</div>
+        <div class="lede">The long way round finally arrives — vows by the river, under the sal trees.</div>
+        <dl>
+          <dt>Afternoon</dt><dd>Couple games — "Who's more likely to…", the Newlywed Game, joota chhupai (steal the groom's shoes), ring-in-the-milk.</dd>
+          <dt>Evening</dt><dd>The ceremony &amp; dinner at Mango Bloom Riverview Resort.</dd>
+          <dt>Dress</dt><dd>Festive jewel tones — bring your finest.</dd>
+        </dl>
+        <div class="quirk">Come early — the games start before the vows. Steal the shoes at your own risk.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RSVP ================= -->
+<section id="rsvp" class="section-cream">
+  <div class="wrap">
+    <div class="section-title reveal-up">
+      <span class="eyebrow">Kindly respond</span>
+      <h2>Will you join us by the river?</h2>
+      <p>A quick yes means a warm seat, good food, and your song on the Sangeet playlist.</p>
+    </div>
+    <div class="rsvp-card reveal-up">
+      <div class="rsvp-mount" id="rsvpMount">
+        <div class="rsvp-placeholder">
+          Your RSVP form loads here.<br><br>
+          Paste your Google Form’s <em>embed</em> link into the <code>RSVP_FORM_EMBED_URL</code> value near the bottom of this page’s code, and this box becomes your live form.
+        </div>
+      </div>
+    </div>
+    <p class="rsvp-note reveal-up">Please respond by <strong>20 December 2026</strong> · Questions about travel or stay? Ring the family — details below.</p>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="footer">
+  <div class="hash">#AmiShi</div>
+  <div class="love">With all our love — Shikha &amp; Amit</div>
+  <div class="div-f divider" style="--line:#8ea07a"></div>
+  <div class="trip">Getting there: fly into Delhi (≈6 hr drive) or Pantnagar (≈1.5 hr), or train to Ramnagar. We'll share travel &amp; stay details with your RSVP.</div>
+  <div class="meta">Mango Bloom Riverview Resort<br>Jim Corbett · Uttarakhand<br>17 – 18 January 2027</div>
+</footer>
+
+<script>
+/* ---------- config you can change ---------- */
+const TARGET = new Date('2027-01-17T14:00:00+05:30'); // Haldi start (change to 18th for the wedding)
+const RSVP_FORM_EMBED_URL = ""; // ← paste your Google Form embed URL between the quotes
+
+/* ---------- mobile nav ---------- */
+const menu=document.getElementById('menu');
+document.querySelector('.nav-toggle').addEventListener('click',()=>menu.classList.toggle('open'));
+menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+
+/* ---------- countdown ---------- */
+function tick(){
+  const now=new Date(), diff=TARGET-now;
+  const set=(id,v)=>document.getElementById(id).textContent=String(v).padStart(2,'0');
+  if(diff<=0){document.getElementById('count').innerHTML='<p style="font-family:Vibes;font-size:52px;color:var(--gold)">It\'s here — see you by the river!</p>';return;}
+  const d=Math.floor(diff/86400000),h=Math.floor(diff/3600000)%24,m=Math.floor(diff/60000)%60,s=Math.floor(diff/1000)%60;
+  document.getElementById('cd-d').textContent=d; set('cd-h',h); set('cd-m',m); set('cd-s',s);
+}
+tick(); setInterval(tick,1000);
+
+/* ---------- reveal on scroll ---------- */
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.15});
+document.querySelectorAll('.reveal-up').forEach(el=>io.observe(el));
+
+/* ---------- fireflies ---------- */
+const reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(!reduce){
+  const L=document.getElementById('lights');
+  for(let i=0;i<16;i++){
+    const f=document.createElement('div'); f.className='firefly';
+    const x=Math.random()*100, y=Math.random()*100;
+    f.style.left=x+'%'; f.style.top=y+'%';
+    f.style.setProperty('--dx',(Math.random()*80-40)+'px');
+    f.style.setProperty('--dy',(Math.random()*60-30)+'px');
+    f.style.animation=`fly ${6+Math.random()*6}s ease-in-out ${Math.random()*5}s infinite`;
+    L.appendChild(f);
+  }
+}
+
+/* ---------- scratch-to-reveal ---------- */
+(function(){
+  const box=document.getElementById('reveal'), cv=document.getElementById('scratch'), hint=document.getElementById('revealHint');
+  const ctx=cv.getContext('2d'); let painting=false, done=false;
+  function size(){
+    const r=box.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+    cv.width=r.width*dpr; cv.height=r.height*dpr; ctx.scale(dpr,dpr);
+    const g=ctx.createLinearGradient(0,0,r.width,r.height);
+    g.addColorStop(0,'#d9b45a'); g.addColorStop(.5,'#f0d88a'); g.addColorStop(1,'#c69a3e');
+    ctx.fillStyle=g; ctx.fillRect(0,0,r.width,r.height);
+    ctx.fillStyle='rgba(90,60,10,.55)'; ctx.font='italic 20px Corm, serif'; ctx.textAlign='center';
+    ctx.fillText('✦  swipe the gold  ✦', r.width/2, r.height/2+7);
+  }
+  if(reduce){ box.classList.add('done'); hint.textContent='the date, unveiled'; return; }
+  size(); window.addEventListener('resize',()=>{if(!done){ctx.setTransform(1,0,0,1,0,0);size();}});
+  function pos(e){const r=cv.getBoundingClientRect();const p=e.touches?e.touches[0]:e;return{x:p.clientX-r.left,y:p.clientY-r.top};}
+  function scratch(e){
+    if(!painting||done)return; const {x,y}=pos(e);
+    ctx.globalCompositeOperation='destination-out';
+    ctx.beginPath(); ctx.arc(x,y,26,0,7); ctx.fill();
+    check();
+  }
+  function check(){
+    const r=cv.getBoundingClientRect(), img=ctx.getImageData(0,0,cv.width,cv.height).data;
+    let clear=0; for(let i=3;i<img.length;i+=64){if(img[i]===0)clear++;}
+    if(clear/(img.length/64)>.5){done=true; box.classList.add('done'); hint.textContent='the date, unveiled ✦';}
+  }
+  const start=e=>{painting=true;scratch(e);}, end=()=>painting=false;
+  cv.addEventListener('mousedown',start); cv.addEventListener('mousemove',scratch); window.addEventListener('mouseup',end);
+  cv.addEventListener('touchstart',e=>{e.preventDefault();start(e);},{passive:false});
+  cv.addEventListener('touchmove',e=>{e.preventDefault();scratch(e);},{passive:false});
+  cv.addEventListener('touchend',end);
+})();
+
+/* ---------- rsvp embed ---------- */
+if(RSVP_FORM_EMBED_URL){
+  document.getElementById('rsvpMount').innerHTML=
+    '<iframe src="'+RSVP_FORM_EMBED_URL+'" loading="lazy">Loading…</iframe>';
+}
+</script>
+</body>
+</html>

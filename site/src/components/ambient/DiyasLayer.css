@@ -1,0 +1,12 @@
+.diyas-layer{
+  position:absolute;left:0;right:0;bottom:0;height:70px;pointer-events:none;overflow:visible;z-index:1;
+}
+.diya{
+  position:absolute;bottom:0;font-size:26px;opacity:.85;
+  animation:diya-glow 3.2s ease-in-out infinite;
+  filter:drop-shadow(0 0 6px rgba(255,190,110,.7));
+}
+@keyframes diya-glow{
+  0%,100%{transform:translateY(0);filter:drop-shadow(0 0 4px rgba(255,190,110,.5));}
+  50%{transform:translateY(-4px);filter:drop-shadow(0 0 10px rgba(255,190,110,.9));}
+}
