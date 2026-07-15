@@ -1,31 +1,40 @@
 :root{
-  /* base paper/ink */
-  --paper:#fdf6f0;
-  --cream:#fffaf5;
-  --ink:#4a3f4d;
-  --ink-soft:#7a6b78;
+  /* base paper/ink — "Orchid Cream" */
+  --paper:#f8f1e7;
+  --cream:#fdf8f0;
+  --ink:#54374f;
+  --ink-soft:#8a6c82;
 
   /* anchors */
-  --sage:#a8b89a;
-  --gold:#d4a857;
-  --gold-light:#e6c584;
+  --orchid:#9c5a8f;
+  --gold:#c9a24b;
+  --gold-light:#dbb877;
 
   /* pastel hue ramp */
-  --peach:#f6c9a8;
-  --pink:#f3b6c2;
-  --purple:#c9b6e0;
-  --green:#b8d4b0;
-  --orange:#f0b184;
-  --blue:#a9c8e0;
-  --turquoise:#9fd6ce;
+  --peach:#f7c6a6;
+  --pink:#f2acc6;
+  --lilac:#cba7e2;
+  --green:#b6d3a5;
+  --orange:#f5c184;
+  --blue:#aac1ec;
+  --turquoise:#9fdcd2;
+  --rose-hue:#e79aa8;
 
-  /* semantic aliases (keep old-site variable names working) */
-  --rose:var(--pink);
-  --rose-soft:#e8a9b8;
-  --forest:var(--sage);
+  /* twilight (night sections, e.g. footer) */
+  --dusk:#2f2444;
+  --moon:#e8c98a;
+  --glow:#c9a2e6;
+
+  /* semantic aliases (keep the names every component already uses — only
+     values move here, see CLAUDE.md for the convention) */
+  --sage:var(--orchid);
+  --purple:var(--lilac);
+  --rose:var(--rose-hue);
+  --rose-soft:#e6b7c3;
+  --forest:var(--orchid);
   --teal:var(--turquoise);
-  --line:#ecd9cf;
+  --line:#e9d9d2;
 
-  --shadow-soft:0 10px 30px rgba(180,140,150,.16);
-  --shadow-lift:0 16px 40px rgba(180,140,150,.22);
+  --shadow-soft:0 10px 30px rgba(120,70,110,.16);
+  --shadow-lift:0 16px 40px rgba(120,70,110,.22);
 }

@@ -3,7 +3,7 @@ import { config } from '../config';
 import { useReducedMotion } from '../lib/reducedMotion';
 import './EnvelopeOpener.css';
 
-const PETAL_COLORS = ['#f3b6c2', '#f6c9a8', '#c9b6e0', '#b8d4b0', '#a9c8e0'];
+const PETAL_COLORS = ['#f2acc6', '#f7c6a6', '#cba7e2', '#b6d3a5', '#aac1ec'];
 
 export default function EnvelopeOpener({ onDone }: { onDone: () => void }) {
   const reduced = useReducedMotion();

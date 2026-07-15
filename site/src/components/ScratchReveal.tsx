@@ -23,7 +23,7 @@ export default function ScratchReveal({
   height,
   aspectRatio,
   onRevealed,
-  colors = ['#f3b6c2', '#f6c9a8', '#c9b6e0'],
+  colors = ['#f2acc6', '#f7c6a6', '#cba7e2'],
 }: ScratchRevealProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);

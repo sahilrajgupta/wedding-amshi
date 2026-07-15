@@ -9,6 +9,7 @@ import DholSection from '../components/DholSection';
 import GettingThere from '../components/GettingThere';
 import RsvpForm from '../components/RsvpForm';
 import Footer from '../components/Footer';
+import WaveDivider from '../components/WaveDivider';
 import PetalsLayer from '../components/ambient/PetalsLayer';
 
 export default function HomePage({ entered, onEnter }: { entered: boolean; onEnter: () => void }) {
@@ -23,15 +24,18 @@ export default function HomePage({ entered, onEnter }: { entered: boolean; onEnt
   return (
     <>
       {!skipEnvelope && <EnvelopeOpener onDone={onEnter} />}
-      {entered && <PetalsLayer density={18} />}
+      {entered && <PetalsLayer density={34} />}
       <Nav />
       <Hero entered={entered} />
       <Countdown />
+      <WaveDivider from="var(--paper)" to="var(--cream)" />
       <StoryTimeline />
+      <WaveDivider from="var(--cream)" to="var(--paper)" />
       <WeekendEvents />
       <DholSection />
       <GettingThere />
       <RsvpForm />
+      <WaveDivider from="var(--cream)" to="var(--dusk)" flip />
       <Footer />
     </>
   );

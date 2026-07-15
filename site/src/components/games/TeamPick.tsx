@@ -14,7 +14,7 @@ export default function TeamPick() {
           onClick={() => setTeamPick(teamPick === 'ladki' ? null : 'ladki')}
           aria-pressed={teamPick === 'ladki'}
         >
-          🌸 Team Ladki Wale
+          🌼 Team Ladki Wale
         </button>
         <button
           type="button"
@@ -22,12 +22,12 @@ export default function TeamPick() {
           onClick={() => setTeamPick(teamPick === 'ladke' ? null : 'ladke')}
           aria-pressed={teamPick === 'ladke'}
         >
-          💪 Team Ladke Wale
+          👳 Team Ladke Wale
         </button>
       </div>
       {teamPick && (
         <p className="team-pick-confirm">
-          You're riding with {teamPick === 'ladki' ? 'Team Ladki Wale 🌸' : 'Team Ladke Wale 💪'} — noted for your RSVP.
+          You're riding with {teamPick === 'ladki' ? 'Team Ladki Wale 🌼' : 'Team Ladke Wale 👳'} — noted for your RSVP.
         </p>
       )}
     </div>

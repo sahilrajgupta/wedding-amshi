@@ -7,9 +7,10 @@
   transition:transform .18s ease, border-color .2s ease, background .2s ease;
 }
 .travel-card:hover{transform:translateY(-3px);}
-.travel-card.active{background:linear-gradient(160deg, var(--peach), var(--pink));border-color:var(--gold);}
+.travel-card.active{background:linear-gradient(160deg, var(--blue), var(--turquoise));border-color:#7ea6c9;}
+.travel-icon{font-size:26px;line-height:1;margin-bottom:6px;}
 .travel-tag{
-  font-family:'Jost';font-weight:500;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+  font-family:'Jost';font-weight:500;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:#4a7bab;
 }
 .travel-title{font-family:'Corm';font-weight:700;font-size:23px;color:var(--rose);margin:8px 0 6px;}
 .travel-body{font-family:'CormI';font-style:italic;font-size:16.5px;color:var(--ink-soft);}
@@ -20,7 +21,7 @@
 .directions-wrap{text-align:center;margin-top:36px;}
 .btn-directions{
   display:inline-block;font-family:'Jost';font-size:14.5px;font-weight:500;letter-spacing:.04em;
-  padding:14px 26px;border-radius:999px;background:var(--forest);color:#fff;text-decoration:none;
+  padding:14px 26px;border-radius:999px;background:#4a7bab;color:#fff;text-decoration:none;
   box-shadow:var(--shadow-soft);transition:transform .15s ease;
 }
 .btn-directions:hover{transform:translateY(-2px);}

@@ -4,12 +4,13 @@ import { useRsvp } from '../../context/RsvpContext';
 import './PetalsLayer.css';
 
 const PALETTES = {
-  default: ['#f3b6c2', '#f6c9a8', '#c9b6e0', '#f0b184'],
-  ladki: ['#f3b6c2', '#e8a9b8', '#f6c9a8', '#f0899e'],
-  ladke: ['#a9c8e0', '#9fd6ce', '#b8d4b0', '#7ea6c9'],
+  // Mixed pastel default draws from the full Orchid Cream ramp.
+  default: ['#f2acc6', '#f7c6a6', '#cba7e2', '#b6d3a5', '#f5c184', '#aac1ec', '#9fdcd2', '#e79aa8'],
+  ladki: ['#f2acc6', '#e79aa8', '#f7c6a6', '#e6839c'],
+  ladke: ['#aac1ec', '#9fdcd2', '#b6d3a5', '#7ea6c9'],
 } as const;
 
-export default function PetalsLayer({ density = 22 }: { density?: number }) {
+export default function PetalsLayer({ density = 34 }: { density?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const { teamPick } = useRsvp();

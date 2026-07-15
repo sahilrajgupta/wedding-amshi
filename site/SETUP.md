@@ -1,24 +1,24 @@
 # Setup — filling in the placeholders
 
-The site runs and builds fine with zero real values (`npm run dev` / `npm run build`), but four things need to be supplied before it's fully live. All of them are read from `site/.env` (copy `.env.example` to `.env` first) via `src/config.ts`. None of them are secret — they ship inside the client bundle — so this is purely for convenience, not security.
+The site runs and builds fine with zero real values (`npm run dev` / `npm run build`), but a few things need to be supplied before it's fully live. All of them are read from `site/.env` (copy `.env.example` to `.env` first) via `src/config.ts`. None of them are secret — they ship inside the client bundle — so this is purely for convenience, not security.
 
-## 1. WhatsApp number
+## 1. WhatsApp numbers
 
-Set `VITE_WHATSAPP_PHONE` to the number RSVPs should go to, digits only with country code, no `+` or spaces (e.g. `919876543210`). Until this is set, the "Send RSVP on WhatsApp" button on the site stays disabled and reads "WhatsApp number not set yet."
+Set `VITE_WHATSAPP_BRIDE` and `VITE_WHATSAPP_GROOM`, digits only with country code, no `+` or spaces (e.g. `919876543210`). RSVPs are routed to whichever side's number matches the guest's Team Ladki/Ladke pick — the bride's number is the fallback when no team has been picked yet, or when the matching side's number isn't set. Until *both* are unset, the "Send RSVP on WhatsApp" button stays disabled and reads "WhatsApp number not set yet." — as soon as either one is set, the button works (routing to whichever is available).
 
 ## 2. RSVP deadline
 
-Set `VITE_RSVP_DEADLINE` to an ISO date (`YYYY-MM-DD`). Shown to guests under the RSVP form. Defaults to `2026-12-20`.
+Set `VITE_RSVP_DEADLINE` to an ISO date (`YYYY-MM-DD`). Shown to guests under the RSVP form. Defaults to `2026-07-20`.
 
 ## 3. Venue directions link
 
-Set `VITE_VENUE_MAPS_LINK` to a real Google Maps **directions** link for Mango Bloom Riverview Resort, Jim Corbett — ideally one that starts turn-by-turn navigation from the guest's location rather than just opening a place card:
+`VITE_VENUE_MAPS_LINK` already defaults to the couple's real map link (`https://maps.app.goo.gl/BGt7gv9gKCA6Kapk6`, Mango Bloom River Resort, Jim Corbett) — only override it if that changes. If you do, ideally use a link that starts turn-by-turn navigation from the guest's location rather than just opening a place card:
 
 ```
 https://www.google.com/maps/dir/?api=1&destination=<place name, or lat,lng>
 ```
 
-Until this is set (or it doesn't contain `google.com/maps`/`goo.gl/maps`), the Directions button on the "Getting There" section visibly flags itself as not configured yet.
+If the configured link doesn't contain `google.com/maps`, `goo.gl/maps`, or `maps.app.goo.gl`, the Directions button on the "Getting There" section visibly flags itself as not configured yet.
 
 ## 4. RSVP → Google Sheet logging (Google Apps Script)
 
@@ -36,10 +36,10 @@ The site logs every RSVP to a Google Sheet via a small script you deploy yoursel
 7. **Test it before wiring the frontend:**
    ```sh
    curl -X POST -H "Content-Type: text/plain" \
-     -d '{"name":"Test Guest","headcount":"2","teamPick":"ladki","travelOption":"road-delhi","wantsTrainCoach":false,"message":"hi"}' \
+     -d '{"name":"Test Guest","attending":"yes","celebrations":["haldi","wedding"],"headcount":"2","contact":"test@example.com","songRequest":"Kesariya","teamPick":"ladki","travelOption":"road-delhi","wantsTrainCoach":false,"message":"hi"}' \
      "<your /exec URL>"
    ```
-   Then check the Sheet — a new `RSVPs` tab should appear (if it doesn't already exist) with a row for "Test Guest."
+   Then check the Sheet — a new `RSVPs` tab should appear (if it doesn't already exist) with columns Timestamp / Name / Attending / Celebrations / Headcount / Contact / Song Request / Team Pick / Travel Option / Wants Train Coach / Message, and a row for "Test Guest."
 
 ### Why the frontend uses `mode: 'no-cors'`
 

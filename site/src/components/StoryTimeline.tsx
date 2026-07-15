@@ -5,7 +5,7 @@ import './StoryTimeline.css';
 
 export default function StoryTimeline() {
   return (
-    <section id="story" className="section-cream">
+    <section id="story" className="section-cream section-lilac">
       <div className="wrap">
         <Reveal className="section-title">
           <span className="eyebrow">{storyIntro.eyebrow}</span>

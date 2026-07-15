@@ -1,14 +1,17 @@
+.section-lilac{
+  background-image:radial-gradient(70% 50% at 50% 0%, rgba(203,167,226,.16), transparent 65%);
+}
 .timeline{position:relative;max-width:760px;margin:36px auto 0;}
 .timeline::before{
   content:"";position:absolute;left:50%;top:6px;bottom:6px;width:2px;
-  background:repeating-linear-gradient(var(--line) 0 6px,transparent 6px 14px);transform:translateX(-50%);
+  background:repeating-linear-gradient(var(--lilac) 0 6px,transparent 6px 14px);transform:translateX(-50%);
 }
 .stop{position:relative;width:50%;padding:14px 34px;margin:6px 0;}
 .stop:nth-child(odd){left:0;text-align:right;}
 .stop:nth-child(even){left:50%;text-align:left;}
 .stop .dot{
-  position:absolute;top:20px;width:15px;height:15px;border-radius:50%;background:var(--gold);
-  border:3px solid var(--cream);box-shadow:0 0 0 2px var(--gold);
+  position:absolute;top:20px;width:15px;height:15px;border-radius:50%;background:var(--lilac);
+  border:3px solid var(--cream);box-shadow:0 0 0 2px var(--lilac);
 }
 .stop:nth-child(odd) .dot{right:-8px;}
 .stop:nth-child(even) .dot{left:-8px;}

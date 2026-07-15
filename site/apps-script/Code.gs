@@ -16,7 +16,11 @@ function doPost(e) {
     sheet.appendRow([
       'Timestamp',
       'Name',
+      'Attending',
+      'Celebrations',
       'Headcount',
+      'Contact',
+      'Song Request',
       'Team Pick',
       'Travel Option',
       'Wants Train Coach',
@@ -27,7 +31,11 @@ function doPost(e) {
   sheet.appendRow([
     new Date(),
     data.name || '',
+    data.attending || '',
+    (data.celebrations || []).join(', '),
     data.headcount || '',
+    data.contact || '',
+    data.songRequest || '',
     data.teamPick || '',
     data.travelOption || '',
     data.wantsTrainCoach ? 'Yes' : 'No',

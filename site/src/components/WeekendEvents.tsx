@@ -2,11 +2,13 @@ import { weddingEvents, weekendIntro } from '../data/events';
 import EventCard from './EventCard';
 import Reveal from './Reveal';
 import DiyasLayer from './ambient/DiyasLayer';
+import Toran from './decor/Toran';
 
 export default function WeekendEvents() {
   return (
     <section id="weekend">
       <DiyasLayer count={5} />
+      <Toran />
       <div className="wrap">
         <Reveal className="section-title">
           <span className="eyebrow">{weekendIntro.eyebrow}</span>

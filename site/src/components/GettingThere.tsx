@@ -3,22 +3,25 @@ import { useRsvp, type TravelOption } from '../context/RsvpContext';
 import Reveal from './Reveal';
 import './GettingThere.css';
 
-const OPTIONS: { id: TravelOption; title: string; body: string; tag: string }[] = [
+const OPTIONS: { id: TravelOption; title: string; body: string; tag: string; icon: string }[] = [
   {
     id: 'train-coach-patna',
     tag: 'Ride with us',
+    icon: '🚂',
     title: 'The wedding train from Patna',
     body: "We've booked a full family coach from Patna, departing the afternoon of 16 January — hop on and arrive together.",
   },
   {
     id: 'train-moradabad',
     tag: 'By rail',
+    icon: '🚆',
     title: 'Train to Moradabad',
     body: 'Take a train into Moradabad, then it\'s about a 2-hour drive to the resort — we can help arrange the last leg.',
   },
   {
     id: 'road-delhi',
     tag: 'By road',
+    icon: '🚗',
     title: 'Road trip from Delhi',
     body: 'Drive straight from Delhi — roughly 6–7 hours through the hills, a scenic option if you\'re up for it.',
   },
@@ -45,6 +48,7 @@ export default function GettingThere() {
                 onClick={() => setTravelOption(travelOption === opt.id ? null : opt.id)}
                 aria-pressed={travelOption === opt.id}
               >
+                <div className="travel-icon">{opt.icon}</div>
                 <div className="travel-tag">{opt.tag}</div>
                 <div className="travel-title">{opt.title}</div>
                 <div className="travel-body">{opt.body}</div>

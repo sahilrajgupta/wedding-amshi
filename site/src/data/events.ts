@@ -51,7 +51,7 @@ export const weddingEvents: WeddingEvent[] = [
     quirk: "Warning: you'll arrive a guest and leave as turmeric.",
     start: '2027-01-17T14:00:00+05:30',
     end: '2027-01-17T17:00:00+05:30',
-    location: 'Mango Bloom Riverview Resort, Jim Corbett, Uttarakhand',
+    location: 'Mango Bloom River Resort, Ramnagar, Mohaan, Jim Corbett, Uttarakhand 244715',
   },
   {
     id: 'mehendi-sangeet',
@@ -77,7 +77,7 @@ export const weddingEvents: WeddingEvent[] = [
       'The henna needs 90 minutes to set — that\'s your window to eat, flirt, and warm up your hips.',
     start: '2027-01-17T17:00:00+05:30',
     end: '2027-01-17T22:00:00+05:30',
-    location: 'Mango Bloom Riverview Resort, Jim Corbett, Uttarakhand',
+    location: 'Mango Bloom River Resort, Ramnagar, Mohaan, Jim Corbett, Uttarakhand 244715',
   },
   {
     id: 'wedding',
@@ -92,12 +92,12 @@ export const weddingEvents: WeddingEvent[] = [
         term: 'Afternoon',
         desc: "Couple games — \"Who's more likely to…\", the Newlywed Game, joota chhupai (steal the groom's shoes), ring-in-the-milk.",
       },
-      { term: 'Evening', desc: 'The ceremony & dinner at Mango Bloom Riverview Resort.' },
+      { term: 'Evening', desc: 'The ceremony & dinner at Mango Bloom River Resort.' },
       { term: 'Dress', desc: 'Festive jewel tones — bring your finest.' },
     ],
     quirk: 'Come early — the games start before the vows. Steal the shoes at your own risk.',
     start: '2027-01-18T14:00:00+05:30',
     end: '2027-01-18T23:00:00+05:30',
-    location: 'Mango Bloom Riverview Resort, Jim Corbett, Uttarakhand',
+    location: 'Mango Bloom River Resort, Ramnagar, Mohaan, Jim Corbett, Uttarakhand 244715',
   },
 ];

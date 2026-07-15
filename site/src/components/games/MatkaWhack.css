@@ -1,0 +1,38 @@
+.matka-whack{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.matka-btn{
+  position:relative;width:140px;height:150px;background:none;border:none;cursor:pointer;padding:0;
+  transition:transform .5s cubic-bezier(.36,.07,.19,.97);
+}
+.matka-btn:disabled{cursor:default;}
+.matka-svg{width:100%;height:100%;filter:drop-shadow(0 10px 16px rgba(84,55,79,.22));}
+.crack{stroke-linecap:round;}
+.matka-btn.shake{animation:matka-shake .22s ease;}
+.matka-btn.broken{transform:rotate(72deg) translateX(18px);}
+
+@keyframes matka-shake{
+  0%{transform:translate(0,0) rotate(0);}
+  25%{transform:translate(-5px,2px) rotate(-4deg);}
+  50%{transform:translate(5px,-2px) rotate(4deg);}
+  75%{transform:translate(-3px,2px) rotate(-2deg);}
+  100%{transform:translate(0,0) rotate(0);}
+}
+
+.turmeric-burst{
+  position:absolute;left:50%;top:52%;width:9px;height:9px;border-radius:50%;
+  background:#f0b93c;opacity:0;
+  animation:turmeric-fly .8s ease-out forwards;
+}
+@keyframes turmeric-fly{
+  0%{transform:translate(-50%,-50%) scale(.5);opacity:1;}
+  100%{transform:translate(calc(-50% + var(--bx)), calc(-50% + var(--by))) scale(1);opacity:0;}
+}
+
+.matka-label{
+  font-family:'Jost';font-size:13px;font-weight:500;letter-spacing:.04em;color:var(--ink-soft);text-align:center;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .matka-btn{transition:none;}
+  .matka-btn.shake{animation:none;}
+  .matka-btn.broken{transform:none;}
+}

@@ -1,9 +1,11 @@
 import { config } from '../config';
+import FirefliesLayer from './ambient/FirefliesLayer';
 import './Footer.css';
 
 export default function Footer() {
   return (
     <footer id="footer">
+      <FirefliesLayer count={10} />
       <div className="hash">{config.hashtag}</div>
       <div className="love">With all our love — {config.names}</div>
       <div className="div-f divider" />

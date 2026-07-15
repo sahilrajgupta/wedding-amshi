@@ -1,6 +1,6 @@
 .team-pick{
   margin-top:20px;padding:18px;border-radius:12px;
-  background:linear-gradient(135deg, rgba(243,182,194,.25), rgba(184,212,176,.25));
+  background:linear-gradient(135deg, rgba(242,172,198,.25), rgba(182,211,165,.25));
   border:1px solid var(--line);text-align:center;
 }
 .team-pick-label{

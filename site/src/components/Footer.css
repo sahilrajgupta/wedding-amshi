@@ -1,14 +1,16 @@
 footer{
-  background:linear-gradient(160deg, var(--sage), #8fa480);
-  color:#fbf5ec;text-align:center;padding:64px 24px 48px;
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg, var(--dusk), #1c1530);
+  color:#f3ecf7;text-align:center;padding:70px 24px 52px;
 }
-footer .hash{font-family:'Vibes';font-size:58px;color:#fbe6c8;line-height:1;}
-footer .love{font-family:'CormI';font-style:italic;font-size:22px;margin-top:10px;color:#fbf5ec;}
-footer .div-f{color:#dcead2;margin:22px auto;}
+footer .hash{position:relative;z-index:2;font-family:'Vibes';font-size:58px;color:var(--moon);line-height:1;}
+footer .love{position:relative;z-index:2;font-family:'CormI';font-style:italic;font-size:22px;margin-top:10px;color:#f3ecf7;}
+footer .div-f{position:relative;z-index:2;color:var(--glow);margin:22px auto;}
 footer .trip{
-  font-family:'Corm';font-size:17px;color:#f1e6d2;margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto;
+  position:relative;z-index:2;font-family:'Corm';font-size:17px;color:#e4d6ef;margin-top:18px;
+  max-width:560px;margin-left:auto;margin-right:auto;
 }
 footer .meta{
-  font-family:'Jost';font-weight:300;font-size:13px;letter-spacing:.2em;text-transform:uppercase;
-  color:#eadfc4;margin-top:20px;line-height:2;
+  position:relative;z-index:2;font-family:'Jost';font-weight:300;font-size:13px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--glow);margin-top:20px;line-height:2;
 }
