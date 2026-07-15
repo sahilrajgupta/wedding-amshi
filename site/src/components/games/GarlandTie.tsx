@@ -17,10 +17,14 @@ function RopeEnd({ color, tailToRight }: { color: string; tailToRight: boolean }
   );
 }
 
+type Side = 'left' | 'right';
+
 export default function GarlandTie({ onUnlock }: { onUnlock: () => void }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [dragX, setDragX] = useState<number | null>(null); // null = home position (right side)
-  const [dragging, setDragging] = useState(false);
+  // null = still at that end's home position (left edge / right edge).
+  const [leftX, setLeftX] = useState<number | null>(null);
+  const [rightX, setRightX] = useState<number | null>(null);
+  const [dragging, setDragging] = useState<Side | null>(null);
   const [tied, setTied] = useState(false);
   const reduced = useReducedMotion();
 
@@ -30,10 +34,12 @@ export default function GarlandTie({ onUnlock }: { onUnlock: () => void }) {
     return { min: EDGE_GAP, max: width - END_WIDTH - EDGE_GAP };
   }
 
-  function handlePointerDown(e: ReactPointerEvent<HTMLDivElement>) {
-    if (tied) return;
-    (e.target as Element).setPointerCapture(e.pointerId);
-    setDragging(true);
+  function handlePointerDown(side: Side) {
+    return (e: ReactPointerEvent<HTMLDivElement>) => {
+      if (tied) return;
+      (e.target as Element).setPointerCapture(e.pointerId);
+      setDragging(side);
+    };
   }
 
   function handlePointerMove(e: ReactPointerEvent<HTMLDivElement>) {
@@ -44,28 +50,34 @@ export default function GarlandTie({ onUnlock }: { onUnlock: () => void }) {
     const { min, max } = bounds();
     let x = e.clientX - rect.left - END_WIDTH / 2;
     x = Math.max(min, Math.min(max, x));
-    setDragX(x);
+    if (dragging === 'left') setLeftX(x);
+    else setRightX(x);
   }
 
   function handlePointerUp() {
     if (!dragging || tied) return;
-    setDragging(false);
-    const { min } = bounds();
-    if (dragX !== null && dragX - min < SNAP_THRESHOLD) {
+    const { min, max } = bounds();
+    const leftPos = leftX ?? min;
+    const rightPos = rightX ?? max;
+    if (rightPos - leftPos < SNAP_THRESHOLD) {
+      // However far each end travelled, they meet in the middle — this
+      // works whichever end (or both) the guest actually dragged.
+      const mid = (leftPos + rightPos) / 2;
+      setLeftX(mid);
+      setRightX(mid);
       setTied(true);
-      setDragX(min);
       window.setTimeout(onUnlock, reduced ? 0 : 750);
+    } else if (dragging === 'left') {
+      setLeftX(null); // springs back to its home position via CSS
     } else {
-      setDragX(null); // springs back to the home position via CSS
+      setRightX(null);
     }
+    setDragging(null);
   }
 
-  // Home position (undragged) is handled by CSS (`right: 10px`) so it's
-  // correct on first paint regardless of viewport width — only switch to
-  // explicit `left` positioning once we actually have a measured drag/tied
-  // position, rather than guessing the track's width before it's mounted.
-  const rightStyle: CSSProperties =
-    tied ? { left: EDGE_GAP, right: 'auto' } : dragX !== null ? { left: dragX, right: 'auto' } : {};
+  const leftStyle: CSSProperties = leftX !== null ? { left: leftX } : {};
+  const rightStyle: CSSProperties = rightX !== null ? { left: rightX, right: 'auto' } : {};
+  const knotLeft = leftX !== null ? leftX + END_WIDTH / 2 - 11 : 0;
 
   return (
     <div className="garland-tie">
@@ -74,22 +86,29 @@ export default function GarlandTie({ onUnlock }: { onUnlock: () => void }) {
           <path d="M38,42 Q140,4 242,42" fill="none" stroke="#c76b8f" strokeWidth="2" strokeDasharray="4 6" opacity="0.5" />
         </svg>
         <div className="garland-string" />
-        <div className="garland-end garland-end-left">
+        <div
+          className={`garland-end garland-end-left${dragging === 'left' ? ' dragging' : ''}${tied ? ' tied' : ''}`}
+          style={leftStyle}
+          onPointerDown={handlePointerDown('left')}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+        >
           <RopeEnd color="#c76b8f" tailToRight={true} />
         </div>
         <div
-          className={`garland-end garland-end-right${dragging ? ' dragging' : ''}${tied ? ' tied' : ''}`}
+          className={`garland-end garland-end-right${dragging === 'right' ? ' dragging' : ''}${tied ? ' tied' : ''}`}
           style={rightStyle}
-          onPointerDown={handlePointerDown}
+          onPointerDown={handlePointerDown('right')}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
           <RopeEnd color="#a3872c" tailToRight={false} />
         </div>
-        {tied && <span className="garland-knot">🪢</span>}
+        {tied && <span className="garland-knot" style={{ left: knotLeft }}>🪢</span>}
       </div>
-      <div className="garland-label">{tied ? 'Gathbandhan complete. 🌸' : 'Drag the ends together'}</div>
+      <div className="garland-label">{tied ? 'Gathbandhan complete. 🌸' : 'Drag either end to tie the knot'}</div>
     </div>
   );
 }

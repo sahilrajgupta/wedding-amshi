@@ -8,15 +8,15 @@
   background:repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px);
   transform:translateY(-50%);
 }
-.garland-end{position:absolute;top:4px;width:56px;height:56px;}
-.garland-end-left{left:10px;}
-.garland-end-right{
-  right:10px;cursor:grab;touch-action:none;
+.garland-end{
+  position:absolute;top:4px;width:56px;height:56px;cursor:grab;touch-action:none;
   transition:left .4s cubic-bezier(.2,.7,.2,1), right .4s cubic-bezier(.2,.7,.2,1);
 }
-.garland-end-right.dragging{transition:none;cursor:grabbing;}
+.garland-end-left{left:10px;}
+.garland-end-right{right:10px;}
+.garland-end.dragging{transition:none;cursor:grabbing;}
 .garland-knot{
-  position:absolute;top:-8px;left:14px;font-size:22px;z-index:1;
+  position:absolute;top:-8px;font-size:22px;z-index:1;
   animation:knot-pop .5s cubic-bezier(.2,.8,.3,1.4);
 }
 @keyframes knot-pop{

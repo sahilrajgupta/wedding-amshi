@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useReducedMotion } from '../lib/reducedMotion';
+import { playRevealChime } from '../lib/scratchSound';
 import './ScratchReveal.css';
 
 interface ScratchRevealProps {
@@ -18,7 +19,7 @@ interface ScratchRevealProps {
 export default function ScratchReveal({
   children,
   scratchLabel = '✦  swipe to reveal  ✦',
-  brushRadius = 26,
+  brushRadius = 36,
   clearThreshold = 0.5,
   height,
   aspectRatio,
@@ -29,6 +30,7 @@ export default function ScratchReveal({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const paintingRef = useRef(false);
   const doneRef = useRef(false);
+  const startedRef = useRef(false);
   const reduced = useReducedMotion();
   const [done, setDone] = useState(reduced);
 
@@ -76,13 +78,19 @@ export default function ScratchReveal({
       const img = ctx.getImageData(0, 0, cv.width, cv.height).data;
       let clear = 0;
       let total = 0;
+      // Anti-aliased stroke edges leave a soft alpha fringe that never hits
+      // exactly 0 — requiring exact-zero alpha under-counted a box that
+      // already looked fully scratched, so guests had to over-scratch well
+      // past the visual "done" point to trip the threshold. Treat mostly-
+      // transparent pixels as cleared too.
       for (let i = 3; i < img.length; i += 64) {
         total++;
-        if (img[i] === 0) clear++;
+        if (img[i] < 40) clear++;
       }
       if (clear / total > clearThreshold && !doneRef.current) {
         doneRef.current = true;
         setDone(true);
+        playRevealChime();
         onRevealed?.();
       }
     }
@@ -98,6 +106,7 @@ export default function ScratchReveal({
     }
 
     const start = (e: MouseEvent | TouchEvent) => {
+      startedRef.current = true;
       paintingRef.current = true;
       scratch(e);
     };
@@ -105,7 +114,10 @@ export default function ScratchReveal({
       paintingRef.current = false;
     };
     const onResize = () => {
-      if (!doneRef.current) size();
+      // Once the user has started scratching, a resize (e.g. a mobile
+      // browser's address bar collapsing on scroll/touch) must not wipe
+      // progress by redrawing the whole canvas from scratch.
+      if (!doneRef.current && !startedRef.current) size();
     };
     const onTouchStart = (e: TouchEvent) => {
       e.preventDefault();
@@ -117,6 +129,34 @@ export default function ScratchReveal({
     };
 
     size();
+
+    // The box this canvas fills can still be mid-transform right after
+    // mount — Hero wraps it in a delayed scale-in entrance animation, and
+    // getBoundingClientRect() at mount time can catch it at the pre-animate
+    // (smaller) scale. That would size the canvas's pixel buffer to the
+    // wrong dimensions, permanently desyncing scratch coordinates and the
+    // clear-area math from the box's true rendered size. A CSS transform
+    // doesn't fire 'resize' or ResizeObserver, so re-measure on every frame
+    // for a few seconds after mount and repaint whenever the size actually
+    // changed, until it settles (or the guest starts scratching).
+    let rafId = 0;
+    let lastW = -1;
+    let lastH = -1;
+    const correctionDeadline = performance.now() + 4000;
+    const correctionTick = () => {
+      if (doneRef.current || startedRef.current) return;
+      const r = box.getBoundingClientRect();
+      if (Math.abs(r.width - lastW) > 0.5 || Math.abs(r.height - lastH) > 0.5) {
+        lastW = r.width;
+        lastH = r.height;
+        size();
+      }
+      if (performance.now() < correctionDeadline) {
+        rafId = requestAnimationFrame(correctionTick);
+      }
+    };
+    rafId = requestAnimationFrame(correctionTick);
+
     window.addEventListener('resize', onResize);
     cv.addEventListener('mousedown', start);
     cv.addEventListener('mousemove', scratch);
@@ -126,6 +166,7 @@ export default function ScratchReveal({
     cv.addEventListener('touchend', end);
 
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener('resize', onResize);
       cv.removeEventListener('mousedown', start);
       cv.removeEventListener('mousemove', scratch);
