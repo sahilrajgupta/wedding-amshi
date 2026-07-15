@@ -73,11 +73,11 @@ export default function Hero({ entered = true }: { entered?: boolean }) {
             {config.venueName} · {config.venueRegion}
           </div>
 
-          <ScratchReveal scratchLabel="✦ swipe the gold ✦" colors={['#f7c6a6', '#f2acc6', '#cba7e2']}>
+          <ScratchReveal scratchLabel="✦ scratch here ✦" colors={['#cba7e2', '#f0d0e6', '#f2acc6']}>
             <div className="hero-date">17–18 January 2027</div>
             <div className="hero-verse">two days by the river · come as you are, leave as family</div>
           </ScratchReveal>
-          <div className="reveal-hint">✦ swipe the gold to unveil ✦</div>
+          <div className="reveal-hint">✦ scratch to unveil the date ✦</div>
 
           <div className="scrollcue">⌄</div>
         </motion.div>

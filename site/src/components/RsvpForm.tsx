@@ -1,15 +1,23 @@
 import { useState, type FormEvent } from 'react';
 import { config } from '../config';
 import { useRsvp } from '../context/RsvpContext';
-import { buildWhatsappUrl, pickWhatsappNumber, CELEBRATION_LABEL } from '../lib/whatsapp';
+import { buildWhatsappUrl, pickWhatsappNumber } from '../lib/whatsapp';
 import { logRsvpToSheet } from '../lib/sheet';
-import { weddingEvents } from '../data/events';
 import Reveal from './Reveal';
 import DiyasLayer from './ambient/DiyasLayer';
 import './RsvpForm.css';
 
+// Finer-grained than data/events.ts's three cards on purpose — some guests
+// only make it to one half of the Mehendi/Sangeet evening.
+const CELEBRATIONS = [
+  { id: 'haldi', label: 'Haldi' },
+  { id: 'mehendi', label: 'Mehendi' },
+  { id: 'sangeet', label: 'Sangeet' },
+  { id: 'wedding', label: 'The Wedding' },
+];
+
 export default function RsvpForm() {
-  const { teamPick, travelOption, wantsTrainCoach } = useRsvp();
+  const { teamPick, travelOption, wantsTrainCoach, setWantsTrainCoach } = useRsvp();
   const [name, setName] = useState('');
   const [attending, setAttending] = useState<'yes' | 'no' | null>(null);
   const [celebrations, setCelebrations] = useState<string[]>([]);
@@ -23,6 +31,7 @@ export default function RsvpForm() {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
+    weekday: 'long',
   });
 
   const whatsappNumber = pickWhatsappNumber(teamPick);
@@ -65,7 +74,7 @@ export default function RsvpForm() {
         <Reveal className="section-title">
           <span className="eyebrow">Kindly respond</span>
           <h2>Will you join us by the river?</h2>
-          <p>A quick yes means a warm seat, good food, and your song on the Sangeet playlist.</p>
+          <p>A quick yes means a warm bed, good food, and your song on the Sangeet playlist.</p>
         </Reveal>
 
         <Reveal className="rsvp-card">
@@ -83,23 +92,23 @@ export default function RsvpForm() {
             </div>
 
             <div className="rsvp-field">
-              <label>Will you be joining us?</label>
-              <div className="rsvp-attending">
+              <label>Will you attend?</label>
+              <div className="rsvp-attend-row">
                 <button
                   type="button"
-                  className={`rsvp-chip${attending === 'yes' ? ' active yes' : ''}`}
+                  className={`rsvp-attend-btn${attending === 'yes' ? ' active yes' : ''}`}
                   onClick={() => setAttending('yes')}
                   aria-pressed={attending === 'yes'}
                 >
-                  🎉 Joyfully, yes!
+                  Joyfully yes
                 </button>
                 <button
                   type="button"
-                  className={`rsvp-chip${attending === 'no' ? ' active no' : ''}`}
+                  className={`rsvp-attend-btn${attending === 'no' ? ' active no' : ''}`}
                   onClick={() => setAttending('no')}
                   aria-pressed={attending === 'no'}
                 >
-                  💔 Regretfully, no
+                  Regretfully no
                 </button>
               </div>
             </div>
@@ -107,24 +116,24 @@ export default function RsvpForm() {
             {attending === 'yes' && (
               <>
                 <div className="rsvp-field">
-                  <label>Which celebrations?</label>
+                  <label>Which celebrations? (tap all that apply)</label>
                   <div className="rsvp-chips">
-                    {weddingEvents.map((ev) => (
+                    {CELEBRATIONS.map((c) => (
                       <button
                         type="button"
-                        key={ev.id}
-                        className={`rsvp-chip${celebrations.includes(ev.id) ? ' active' : ''}`}
-                        onClick={() => toggleCelebration(ev.id)}
-                        aria-pressed={celebrations.includes(ev.id)}
+                        key={c.id}
+                        className={`rsvp-chip${celebrations.includes(c.id) ? ' active' : ''}`}
+                        onClick={() => toggleCelebration(c.id)}
+                        aria-pressed={celebrations.includes(c.id)}
                       >
-                        {CELEBRATION_LABEL[ev.id] ?? ev.title}
+                        {c.label}
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div className="rsvp-field">
-                  <label htmlFor="rsvp-headcount">How many of you?</label>
+                  <label htmlFor="rsvp-headcount">Number of guests</label>
                   <input
                     id="rsvp-headcount"
                     type="number"
@@ -135,37 +144,49 @@ export default function RsvpForm() {
                 </div>
 
                 <div className="rsvp-field">
+                  <label>Coming on the wedding train from Patna?</label>
+                  <button
+                    type="button"
+                    className={`rsvp-train-btn${wantsTrainCoach ? ' active' : ''}`}
+                    onClick={() => setWantsTrainCoach(!wantsTrainCoach)}
+                    aria-pressed={wantsTrainCoach}
+                  >
+                    🚂 {wantsTrainCoach ? "Count me in — I'm on the train!" : 'Count me in'}
+                  </button>
+                </div>
+
+                <div className="rsvp-field">
                   <label htmlFor="rsvp-contact">Phone or email</label>
                   <input
                     id="rsvp-contact"
                     type="text"
                     value={contact}
                     onChange={(e) => setContact(e.target.value)}
-                    placeholder="For travel & stay details"
+                    placeholder="So we can send travel & stay details"
                   />
                 </div>
 
                 <div className="rsvp-field">
-                  <label htmlFor="rsvp-song">Sangeet song request (optional)</label>
+                  <label htmlFor="rsvp-song">A song for the Sangeet</label>
                   <input
                     id="rsvp-song"
                     type="text"
                     value={songRequest}
                     onChange={(e) => setSongRequest(e.target.value)}
-                    placeholder="What gets you on the dance floor?"
+                    placeholder="The one that gets you on the floor"
                   />
                 </div>
               </>
             )}
 
             <div className="rsvp-field">
-              <label htmlFor="rsvp-message">A note for the couple (optional)</label>
+              <label htmlFor="rsvp-message">A message or blessing</label>
               <textarea
                 id="rsvp-message"
                 rows={3}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Dietary notes, blessings…"
+                placeholder="Say something lovely (or roast us, we don't mind)"
               />
             </div>
 
@@ -180,13 +201,20 @@ export default function RsvpForm() {
               {!whatsappNumber ? 'WhatsApp number not set yet' : '💬 Send RSVP on WhatsApp'}
             </button>
             {sent && <p className="rsvp-sent">Thank you! We've noted your RSVP.</p>}
+
+            <p className="rsvp-routing-note">
+              Your pick of Team Ladki or Team Ladke sends this to the right side of the family. Prefer to call?
+              Ring us any time.
+            </p>
           </form>
         </Reveal>
 
         <Reveal>
+          <p className="rsvp-deadline-badge">Kindly reply by {deadline}</p>
+        </Reveal>
+        <Reveal>
           <p className="rsvp-note">
-            Please respond by <strong>{deadline}</strong> · Questions about travel or stay? Ring the family — details
-            below.
+            We're counting beds, hampers and train berths — an early yes helps us more than you know. 🌸
           </p>
         </Reveal>
       </div>

@@ -25,27 +25,25 @@ export default function EventCard({ event }: { event: WeddingEvent }) {
   };
 
   return (
-    <div className={`event event-${event.id}`}>
-      <Reveal variant="soft">
-        <div className="tag">{event.tag}</div>
-        <h3>{event.title}</h3>
-        <div className="when">{event.when}</div>
-        <div className="lede">{event.lede}</div>
-      </Reveal>
+    <Reveal className={`event event-${event.id}`}>
+      <div className="tag">{event.tag}</div>
+      <h3>{CELEBRATION_LABEL[event.id] ?? event.title}</h3>
+      <div className="when">{event.when}</div>
 
-      <Reveal className="event-mechanic">
-        {!unlocked && event.id === 'haldi' && <MatkaWhack onUnlock={() => setUnlocked(true)} />}
-        {!unlocked && event.id === 'mehendi-sangeet' && <MiniDholTap onUnlock={() => setUnlocked(true)} />}
-        {!unlocked && event.id === 'wedding' && <GarlandTie onUnlock={() => setUnlocked(true)} />}
+      <div className="event-mechanic">
+        {/* Kept mounted (not conditionally removed) once unlocked, so the
+            broken/tied/done illustration stays visible alongside the open
+            button — matches the reference, don't gate this on !unlocked. */}
+        {event.id === 'haldi' && <MatkaWhack onUnlock={() => setUnlocked(true)} />}
+        {event.id === 'mehendi-sangeet' && <MiniDholTap onUnlock={() => setUnlocked(true)} />}
+        {event.id === 'wedding' && <GarlandTie onUnlock={() => setUnlocked(true)} />}
 
         {unlocked && (
-          <Reveal>
-            <button type="button" className="btn-open-event" onClick={() => setModalOpen(true)}>
-              Open the {CELEBRATION_LABEL[event.id] ?? event.title} →
-            </button>
-          </Reveal>
+          <button type="button" className="btn-open-event" onClick={() => setModalOpen(true)}>
+            Open the {CELEBRATION_LABEL[event.id] ?? event.title} →
+          </button>
         )}
-      </Reveal>
+      </div>
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={event.title}>
         <Reveal variant="soft" className="ev-img">
@@ -93,6 +91,6 @@ export default function EventCard({ event }: { event: WeddingEvent }) {
           )}
         </Reveal>
       </Modal>
-    </div>
+    </Reveal>
   );
 }

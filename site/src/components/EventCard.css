@@ -1,21 +1,27 @@
 .event{
-  max-width:660px;margin:0 auto;padding:48px 0;text-align:center;
-  border-bottom:1px solid var(--line);
+  border-radius:20px;padding:34px 22px 30px;text-align:center;
+  border:1px solid rgba(0,0,0,.04);box-shadow:var(--shadow-soft);
+  display:flex;flex-direction:column;align-items:center;height:100%;
 }
-.event:last-child{border-bottom:none;}
+.event-haldi{background:linear-gradient(165deg, #fdf1e0, #fbe3c7);}
+.event-mehendi-sangeet{background:linear-gradient(165deg, #eef7ec, #dcefdf);}
+.event-wedding{background:linear-gradient(165deg, #f8eefb, #f1e3f5);}
 
-/* Shared typography — used both for the on-page teaser (.event ...) and the
-   modal content, which is portalled to document.body so it's no longer a
-   DOM descendant of .event and needs its own selector too. */
+/* Shared typography — used both for the on-page card teaser (.event ...)
+   and the modal content, which is portalled to document.body so it's no
+   longer a DOM descendant of .event and needs its own selector too. */
 .event .tag,
 .modal-panel .tag{
-  font-family:'Jost';font-weight:500;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);
+  font-family:'Jost';font-weight:500;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
 }
 .event h3,
-.modal-panel h3{font-family:'Corm';font-weight:700;font-size:clamp(28px,4vw,38px);color:var(--rose);line-height:1.05;margin:6px 0;}
+.modal-panel h3{font-family:'Corm';font-weight:700;color:var(--ink);line-height:1.05;margin:8px 0 4px;}
+.event h3{font-size:clamp(26px,3vw,32px);}
+.modal-panel h3{font-size:clamp(28px,4vw,38px);color:var(--rose);}
 .event .when,
-.modal-panel .when{font-family:'Corm';font-weight:600;font-size:21px;color:var(--forest);}
-.event .lede,
+.modal-panel .when{font-family:'CormI';font-style:italic;color:var(--ink-soft);}
+.event .when{font-size:16px;margin-bottom:22px;}
+.modal-panel .when{font-size:21px;font-weight:600;font-style:normal;font-family:'Corm';color:var(--forest);}
 .modal-panel .lede{font-family:'CormI';font-style:italic;font-size:20px;color:var(--ink-soft);margin:10px 0 4px;}
 
 .event dl,
@@ -37,13 +43,16 @@
 }
 
 /* The event's unlock mini-game, shown on the page below the teaser copy. */
-.event-mechanic{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.event-mechanic{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:2px;}
 .btn-open-event{
-  font-family:'Jost';font-size:15px;font-weight:600;letter-spacing:.03em;padding:13px 24px;border-radius:999px;
-  border:none;cursor:pointer;background:linear-gradient(135deg, var(--orchid), var(--rose));color:#fff;
-  box-shadow:var(--shadow-soft);transition:transform .15s ease;
+  font-family:'Jost';font-size:13.5px;font-weight:600;letter-spacing:.03em;padding:12px 22px;border-radius:999px;
+  border:none;cursor:pointer;color:#fff;box-shadow:var(--shadow-soft);transition:transform .15s ease;
+  text-transform:uppercase;letter-spacing:.08em;
 }
 .btn-open-event:hover{transform:translateY(-2px);}
+.event-haldi .btn-open-event{background:linear-gradient(135deg, #e0a23c, #c76b3c);}
+.event-mehendi-sangeet .btn-open-event{background:linear-gradient(135deg, #6ba578, #4a8a5a);}
+.event-wedding .btn-open-event{background:linear-gradient(135deg, #c76b8f, #a3546f);}
 
 .ev-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px;}
 .btn-cal{
@@ -60,14 +69,6 @@
   transition:transform .15s ease;
 }
 .dhol-teaser:hover{transform:translateX(3px);}
-
-/* Per-event accent — keeps each celebration visually distinct rather than
-   every card reaching for the exact same rose/gold pairing. */
-.event-haldi .tag{color:var(--orange);}
-.event-haldi h3{color:var(--orange);}
-.event-mehendi-sangeet .tag{color:var(--green);}
-.event-wedding .tag{color:var(--turquoise);}
-.event-wedding h3{color:var(--turquoise);}
 
 /* The modal's header photo. */
 .modal-panel .ev-img{

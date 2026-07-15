@@ -48,3 +48,8 @@ section{position:relative;padding:96px 0;}
 .section-title p{font-family:'CormI';font-style:italic;font-size:20px;color:var(--ink-soft);margin-top:8px;}
 
 button{font:inherit;}
+
+/* Shared progress-dot indicator used by MatkaWhack, MiniDholTap, GarlandTie. */
+.mechanic-dots{display:flex;gap:6px;justify-content:center;margin-top:10px;}
+.mechanic-dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .2s ease, transform .2s ease;}
+.mechanic-dot.filled{background:var(--orchid);transform:scale(1.15);}

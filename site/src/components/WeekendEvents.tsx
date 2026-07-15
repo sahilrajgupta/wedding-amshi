@@ -3,6 +3,7 @@ import EventCard from './EventCard';
 import Reveal from './Reveal';
 import DiyasLayer from './ambient/DiyasLayer';
 import Toran from './decor/Toran';
+import './WeekendEvents.css';
 
 export default function WeekendEvents() {
   return (
@@ -16,9 +17,11 @@ export default function WeekendEvents() {
           <p>{weekendIntro.sub}</p>
         </Reveal>
 
-        {weddingEvents.map((event) => (
-          <EventCard key={event.id} event={event} />
-        ))}
+        <div className="weekend-grid">
+          {weddingEvents.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </div>
       </div>
     </section>
   );

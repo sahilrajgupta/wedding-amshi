@@ -13,7 +13,16 @@
 }
 .rsvp-field input:focus,.rsvp-field textarea:focus{outline:2px solid var(--gold-light);outline-offset:1px;}
 
-.rsvp-attending{display:flex;gap:10px;flex-wrap:wrap;}
+.rsvp-attend-row{display:flex;gap:10px;}
+.rsvp-attend-btn{
+  flex:1;font-family:'Corm';font-weight:700;font-size:17px;padding:16px 12px;border-radius:10px;
+  border:1.5px solid var(--line);background:var(--cream);color:var(--ink);cursor:pointer;
+  transition:transform .15s ease, background .2s ease, border-color .2s ease;
+}
+.rsvp-attend-btn:hover{transform:translateY(-2px);}
+.rsvp-attend-btn.active.yes{background:var(--green);border-color:#7fa870;}
+.rsvp-attend-btn.active.no{background:var(--rose-soft);border-color:var(--rose);}
+
 .rsvp-chips{display:flex;gap:8px;flex-wrap:wrap;}
 .rsvp-chip{
   font-family:'Jost';font-size:13.5px;font-weight:500;padding:9px 16px;border-radius:999px;
@@ -22,8 +31,15 @@
 }
 .rsvp-chip:hover{transform:translateY(-2px);}
 .rsvp-chip.active{background:var(--lilac);border-color:var(--orchid);color:var(--ink);}
-.rsvp-chip.active.yes{background:var(--green);border-color:#7fa870;}
-.rsvp-chip.active.no{background:var(--rose-soft);border-color:var(--rose);}
+
+.rsvp-train-btn{
+  font-family:'Jost';font-weight:600;font-size:15px;padding:12px 20px;border-radius:10px;
+  border:1.5px solid var(--line);background:var(--cream);color:var(--ink);cursor:pointer;
+  transition:transform .15s ease, background .2s ease, border-color .2s ease;
+}
+.rsvp-train-btn:hover{transform:translateY(-2px);}
+.rsvp-train-btn.active{background:linear-gradient(135deg, var(--orchid), #7a4670);border-color:var(--orchid);color:#fff;}
+
 .rsvp-summary{
   display:flex;gap:14px;flex-wrap:wrap;font-family:'Jost';font-size:12.5px;color:var(--forest);
   margin-bottom:16px;text-transform:capitalize;
@@ -37,6 +53,14 @@
 .btn-whatsapp:hover:not(:disabled){transform:translateY(-2px);}
 .btn-whatsapp:disabled{background:#b3a89a;cursor:not-allowed;}
 .rsvp-sent{margin-top:14px;font-family:'CormI';font-style:italic;color:var(--forest);}
+.rsvp-routing-note{
+  margin-top:16px;text-align:center;font-family:'CormI';font-style:italic;font-size:14.5px;color:var(--ink-soft);
+}
+
+.rsvp-deadline-badge{
+  display:block;width:fit-content;margin:26px auto 0;padding:9px 20px;border-radius:999px;
+  background:rgba(156,90,143,.12);font-family:'Corm';font-weight:700;font-size:15px;color:var(--orchid);
+}
 .rsvp-note{
-  text-align:center;font-family:'CormI';font-style:italic;font-size:18px;color:var(--ink-soft);margin-top:22px;
+  text-align:center;font-family:'CormI';font-style:italic;font-size:18px;color:var(--ink-soft);margin-top:16px;
 }
