@@ -1,57 +1,104 @@
 .section-lilac{
   background-image:radial-gradient(70% 50% at 50% 0%, rgba(203,167,226,.16), transparent 65%);
 }
-.timeline{position:relative;max-width:1100px;margin:48px auto 0;padding:0 8px;}
-.timeline-track{position:relative;display:flex;align-items:flex-start;gap:6px;padding-top:24px;}
-.timeline-line-track,.timeline-line-fill{
-  position:absolute;top:6px;left:14px;right:14px;height:2px;transform-origin:left center;
+
+/* --- Pinned scroll-jacked carousel (desktop + mobile) --- */
+.timeline-scroll-track{position:relative;}
+.timeline-pin{
+  position:sticky;top:0;height:100vh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
 }
-.timeline-line-track{
-  background-image:repeating-linear-gradient(90deg, rgba(203,167,226,.3) 0 6px, transparent 6px 14px);
+.carousel-card{
+  position:absolute;top:50%;left:50%;
+  width:min(30vw,380px);aspect-ratio:2/3;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;
+  background:var(--cream);border-radius:24px;padding:34px 28px;
+  box-shadow:var(--shadow-lift);
 }
-.timeline-line-fill{
+.carousel-card .yr{
+  font-family:'Jost';font-weight:500;font-size:13px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;
+}
+.carousel-card .city{font-family:'Corm';font-weight:600;font-size:clamp(26px,3.4vw,34px);color:var(--rose);line-height:1.15;margin-top:6px;}
+.carousel-card .note{font-family:'CormI';font-style:italic;font-size:18px;color:var(--ink-soft);margin-top:10px;}
+.carousel-card .stop-cta{
+  display:inline-block;margin-top:16px;font-family:'Jost';font-size:13px;font-weight:500;letter-spacing:.06em;
+  color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--gold);padding-bottom:2px;
+}
+.carousel-card .stop-cta:hover{color:var(--rose);border-color:var(--rose);}
+
+.crumb-line{
+  position:absolute;left:50%;bottom:8%;
+  background-image:repeating-linear-gradient(90deg, var(--lilac) 0 5px, transparent 5px 11px);
+  opacity:.5;
+}
+/* Grows as the pinned reveal progresses — a visible "thread" linking the
+   stops that have already had their turn, distinct from (and in addition
+   to) the big-card-in-focus effect itself. Centering on the animated
+   .crumb-line-fill is done via the framer-motion x/y style prop (not a CSS
+   transform) so it composes correctly with the animated scaleX/scaleY —
+   motion's inline `transform` would otherwise completely replace a
+   stylesheet `transform:translate()`. Both this and .crumb-line are sized
+   inline from JS (crumbTrailLength) to exactly match the breadcrumb slots'
+   real span — a fixed CSS width here previously fell short of the outer
+   stops, so their dots visibly sat past the end of the line. */
+.crumb-line-fill{
+  position:absolute;left:50%;bottom:8%;
+  transform-origin:left center;
+  background-image:repeating-linear-gradient(90deg, var(--orchid) 0 5px, transparent 5px 11px);
+}
+.carousel-crumb{
+  position:absolute;left:50%;bottom:8%;display:flex;align-items:center;gap:6px;white-space:nowrap;
+  font-family:'Jost';font-size:11.5px;font-weight:500;letter-spacing:.05em;color:var(--ink-soft);
+}
+.crumb-dot{width:7px;height:7px;border-radius:50%;background:var(--lilac);flex-shrink:0;}
+
+@media(max-width:860px){
+  .carousel-card{width:min(56vw,300px);padding:28px 22px;}
+  /* The breadcrumb trail rotates to match the vertical card sweep — a rail
+     in the card's left margin, not a horizontal row across the bottom. */
+  .crumb-line,.crumb-line-fill{left:6%;bottom:auto;top:50%;}
+  .crumb-line{transform:translateY(-50%);}
+  .crumb-line-fill{transform-origin:top center;}
+  .carousel-crumb{left:6%;bottom:auto;top:50%;}
+}
+
+/* --- Recap timeline: connected dot-and-line, single row (desktop) / single
+   column (mobile). This is the lasting representation once the one-time
+   pinned reveal above has played — full detail, always visible, no
+   scroll-jacking. Same connected-line pattern as the pinned trail's guide,
+   just static (fully drawn) and holding the complete stop content. --- */
+.recap-track{position:relative;display:flex;align-items:flex-start;gap:6px;margin-top:64px;padding-top:24px;}
+.recap-line{
+  position:absolute;top:6px;left:14px;right:14px;height:2px;
   background-image:repeating-linear-gradient(90deg, var(--lilac) 0 6px, transparent 6px 14px);
-  transform:scaleX(var(--progress, 0));
 }
-.stop{position:relative;flex:1 1 0;min-width:0;text-align:center;padding:0 6px;}
-.stop .dot{
+.recap-stop{position:relative;flex:1 1 0;min-width:0;text-align:center;padding:0 6px;}
+.recap-dot{
   position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;
   background:var(--lilac);border:3px solid var(--cream);box-shadow:0 0 0 2px var(--lilac);
 }
-.stop-link{
-  display:block;text-decoration:none;color:inherit;cursor:pointer;border-radius:10px;
-  padding:6px 8px;margin:-6px -8px;transition:background .2s ease, transform .15s ease;
-}
-.stop-link:hover{background:rgba(212,168,87,.1);transform:translateY(-2px);}
-.stop .yr{
-  font-family:'Jost';font-weight:500;font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;
-}
-.stop .city{font-family:'Corm';font-weight:600;font-size:23px;color:var(--rose);line-height:1.1;margin-top:2px;}
-.stop .note{font-family:'CormI';font-style:italic;font-size:15px;color:var(--ink-soft);margin-top:2px;}
-.stop.final .city{color:var(--teal);}
-.stop-cta{
+.recap-link{display:block;text-decoration:none;color:inherit;border-radius:10px;padding:6px 8px;margin:-6px -8px;transition:background .2s ease;}
+.recap-link:hover{background:rgba(212,168,87,.1);}
+.recap-stop .yr{font-family:'Jost';font-weight:500;font-size:12px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;}
+.recap-stop .city{font-family:'Corm';font-weight:600;font-size:22px;color:var(--rose);line-height:1.1;margin-top:2px;}
+.recap-stop .note{font-family:'CormI';font-style:italic;font-size:14.5px;color:var(--ink-soft);margin-top:2px;}
+.recap-stop.final .city{color:var(--teal);}
+.recap-stop .stop-cta{
   display:inline-block;margin-top:6px;font-family:'Jost';font-size:11.5px;font-weight:500;letter-spacing:.05em;
   color:var(--gold);opacity:.75;transition:opacity .2s ease;
 }
-.stop-link:hover .stop-cta{opacity:1;}
+.recap-link:hover .stop-cta{opacity:1;}
+
+@media(max-width:860px){
+  .recap-track{flex-direction:column;align-items:stretch;gap:26px;padding-top:6px;padding-left:34px;}
+  .recap-line{top:6px;bottom:6px;left:9px;right:auto;width:2px;height:auto;
+    background-image:repeating-linear-gradient(var(--lilac) 0 6px, transparent 6px 14px);}
+  .recap-stop{width:100%;text-align:left;padding:0;}
+  .recap-dot{top:2px;left:-25px;transform:none;}
+}
+
 .constant{
   text-align:center;font-family:'CormI';font-style:italic;font-size:19px;color:var(--forest);
   margin:34px auto 0;max-width:560px;
-}
-
-@media(max-width:860px){
-  .timeline{max-width:420px;}
-  .timeline-track{flex-direction:column;align-items:stretch;gap:26px;padding-top:6px;padding-left:34px;}
-  .timeline-line-track,.timeline-line-fill{
-    top:6px;bottom:6px;left:9px;right:auto;width:2px;height:auto;transform-origin:top center;
-  }
-  .timeline-line-track{
-    background-image:repeating-linear-gradient(rgba(203,167,226,.3) 0 6px, transparent 6px 14px);
-  }
-  .timeline-line-fill{
-    background-image:repeating-linear-gradient(var(--lilac) 0 6px, transparent 6px 14px);
-    transform:scaleY(var(--progress, 0));
-  }
-  .stop{width:100%;text-align:left;padding:0;}
-  .stop .dot{top:2px;left:-25px;transform:none;}
 }

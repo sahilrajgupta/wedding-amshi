@@ -2,17 +2,30 @@ import { useRef, useState, type CSSProperties, type PointerEvent as ReactPointer
 import { useReducedMotion } from '../../lib/reducedMotion';
 import './GarlandTie.css';
 
-const END_WIDTH = 56;
+const END_WIDTH = 40;
 const EDGE_GAP = 10;
 const SNAP_THRESHOLD = 46;
+const ROSE = '#c76b8f';
+const GOLD = '#a3872c';
 
-function RopeEnd({ color, tailToRight }: { color: string; tailToRight: boolean }) {
-  const tail = tailToRight ? 'M28,28 C40,28 48,24 54,18' : 'M28,28 C16,28 8,24 2,18';
+// Small draggable grab-handle — the actual rope strand is drawn separately
+// as a static decorative curve behind it (see the .garland-ropes <svg>),
+// matching the reference's decoupled rope-path / end-cap structure.
+function EndCap({ color }: { color: string }) {
   return (
-    <svg viewBox="0 0 56 56" aria-hidden="true">
-      <path d={tail} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" />
-      <circle cx="28" cy="28" r="15" fill="none" stroke={color} strokeWidth="6" />
-      <circle cx="28" cy="28" r="6" fill={color} opacity="0.35" />
+    <svg viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="11" fill="none" stroke={color} strokeWidth="5" />
+      <circle cx="20" cy="20" r="4" fill={color} opacity="0.4" />
+    </svg>
+  );
+}
+
+function KnotGlyph() {
+  return (
+    <svg viewBox="0 0 40 30" aria-hidden="true">
+      <path d="M4,15 Q14,2 20,15 Q26,28 36,15" fill="none" stroke={ROSE} strokeWidth="4" strokeLinecap="round" />
+      <path d="M4,15 Q14,28 20,15 Q26,2 36,15" fill="none" stroke={GOLD} strokeWidth="4" strokeLinecap="round" opacity="0.85" />
+      <circle cx="20" cy="15" r="3.5" fill="#fff" opacity="0.9" />
     </svg>
   );
 }
@@ -77,15 +90,24 @@ export default function GarlandTie({ onUnlock }: { onUnlock: () => void }) {
 
   const leftStyle: CSSProperties = leftX !== null ? { left: leftX } : {};
   const rightStyle: CSSProperties = rightX !== null ? { left: rightX, right: 'auto' } : {};
-  const knotLeft = leftX !== null ? leftX + END_WIDTH / 2 - 11 : 0;
+  const knotLeft = leftX !== null ? leftX + END_WIDTH / 2 - 20 : 0;
 
   return (
     <div className="garland-tie">
       <div className="garland-track" ref={trackRef}>
-        <svg className="garland-guide" viewBox="0 0 280 64" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M38,42 Q140,4 242,42" fill="none" stroke="#c76b8f" strokeWidth="2" strokeDasharray="4 6" opacity="0.5" />
+        <svg className="garland-ropes" viewBox="0 0 280 64" preserveAspectRatio="none" aria-hidden="true">
+          <path
+            className="knot-hint"
+            d="M120,20 Q140,8 160,20"
+            fill="none"
+            stroke={ROSE}
+            strokeWidth="1.6"
+            strokeDasharray="3 5"
+            opacity="0.45"
+          />
+          <path d="M14,48 Q80,18 132,34" fill="none" stroke={ROSE} strokeWidth="7" strokeLinecap="round" opacity="0.9" />
+          <path d="M266,48 Q200,18 148,34" fill="none" stroke={GOLD} strokeWidth="7" strokeLinecap="round" opacity="0.9" />
         </svg>
-        <div className="garland-string" />
         <div
           className={`garland-end garland-end-left${dragging === 'left' ? ' dragging' : ''}${tied ? ' tied' : ''}`}
           style={leftStyle}
@@ -94,7 +116,7 @@ export default function GarlandTie({ onUnlock }: { onUnlock: () => void }) {
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
-          <RopeEnd color="#c76b8f" tailToRight={true} />
+          <EndCap color={ROSE} />
         </div>
         <div
           className={`garland-end garland-end-right${dragging === 'right' ? ' dragging' : ''}${tied ? ' tied' : ''}`}
@@ -104,9 +126,13 @@ export default function GarlandTie({ onUnlock }: { onUnlock: () => void }) {
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
         >
-          <RopeEnd color="#a3872c" tailToRight={false} />
+          <EndCap color={GOLD} />
         </div>
-        {tied && <span className="garland-knot" style={{ left: knotLeft }}>🪢</span>}
+        {tied && (
+          <span className="garland-knot" style={{ left: knotLeft }}>
+            <KnotGlyph />
+          </span>
+        )}
       </div>
       <div className="garland-label">{tied ? 'Gathbandhan complete. 🌸' : 'Drag either end to tie the knot'}</div>
     </div>

@@ -6,7 +6,13 @@ import FirefliesLayer from './ambient/FirefliesLayer';
 import { useReducedMotion } from '../lib/reducedMotion';
 import './Hero.css';
 
-export default function Hero({ entered = true }: { entered?: boolean }) {
+export default function Hero({
+  entered = true,
+  onRsvpJump,
+}: {
+  entered?: boolean;
+  onRsvpJump?: () => void;
+}) {
   const heroRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
@@ -72,6 +78,34 @@ export default function Hero({ entered = true }: { entered?: boolean }) {
           <div className="hero-place">
             {config.venueName} · {config.venueRegion}
           </div>
+
+          {/* Not a plain hash link on purpose — changing location.hash also
+              triggers App.tsx's ScrollToTop effect, a second, competing
+              scroll command (instant scrollIntoView) racing the browser's
+              own native smooth anchor-jump. Driving the scroll ourselves
+              and skipping the URL/hash entirely leaves exactly one
+              in-flight scroll animation. `onRsvpJump` (wired in HomePage)
+              marks the story timeline's pinned reveal as already-played
+              *before* this scrolls past it — collapsing that section's tall
+              scroll-jack spacer mid-flight, while this jump is animating
+              through it, fought the in-progress scroll no matter how the
+              compensation math was tuned (see StoryTimeline.tsx). Doing it
+              first sidesteps the race: the spacer is already gone by the
+              time the scroll (deferred one frame so React's re-render has
+              committed) even starts. */}
+          <a
+            href="#rsvp"
+            className="btn-hero-rsvp"
+            onClick={(e) => {
+              e.preventDefault();
+              onRsvpJump?.();
+              requestAnimationFrame(() => {
+                document.getElementById('rsvp')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+            }}
+          >
+            RSVP →
+          </a>
 
           <ScratchReveal scratchLabel="✦ scratch here ✦" colors={['#cba7e2', '#f0d0e6', '#f2acc6']}>
             <div className="hero-date">17–18 January 2027</div>

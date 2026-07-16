@@ -113,71 +113,67 @@ export default function RsvpForm() {
               </div>
             </div>
 
-            {attending === 'yes' && (
-              <>
-                <div className="rsvp-field">
-                  <label>Which celebrations? (tap all that apply)</label>
-                  <div className="rsvp-chips">
-                    {CELEBRATIONS.map((c) => (
-                      <button
-                        type="button"
-                        key={c.id}
-                        className={`rsvp-chip${celebrations.includes(c.id) ? ' active' : ''}`}
-                        onClick={() => toggleCelebration(c.id)}
-                        aria-pressed={celebrations.includes(c.id)}
-                      >
-                        {c.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rsvp-field">
-                  <label htmlFor="rsvp-headcount">Number of guests</label>
-                  <input
-                    id="rsvp-headcount"
-                    type="number"
-                    min={1}
-                    value={headcount}
-                    onChange={(e) => setHeadcount(e.target.value)}
-                  />
-                </div>
-
-                <div className="rsvp-field">
-                  <label>Coming on the wedding train from Patna?</label>
+            <div className="rsvp-field">
+              <label>Which celebrations? (tap all that apply)</label>
+              <div className="rsvp-chips">
+                {CELEBRATIONS.map((c) => (
                   <button
                     type="button"
-                    className={`rsvp-train-btn${wantsTrainCoach ? ' active' : ''}`}
-                    onClick={() => setWantsTrainCoach(!wantsTrainCoach)}
-                    aria-pressed={wantsTrainCoach}
+                    key={c.id}
+                    className={`rsvp-chip${celebrations.includes(c.id) ? ' active' : ''}`}
+                    onClick={() => toggleCelebration(c.id)}
+                    aria-pressed={celebrations.includes(c.id)}
                   >
-                    🚂 {wantsTrainCoach ? "Count me in — I'm on the train!" : 'Count me in'}
+                    {c.label}
                   </button>
-                </div>
+                ))}
+              </div>
+            </div>
 
-                <div className="rsvp-field">
-                  <label htmlFor="rsvp-contact">Phone or email</label>
-                  <input
-                    id="rsvp-contact"
-                    type="text"
-                    value={contact}
-                    onChange={(e) => setContact(e.target.value)}
-                    placeholder="So we can send travel & stay details"
-                  />
-                </div>
+            <div className="rsvp-field">
+              <label htmlFor="rsvp-headcount">Number of guests</label>
+              <input
+                id="rsvp-headcount"
+                type="number"
+                min={1}
+                value={headcount}
+                onChange={(e) => setHeadcount(e.target.value)}
+              />
+            </div>
 
-                <div className="rsvp-field">
-                  <label htmlFor="rsvp-song">A song for the Sangeet</label>
-                  <input
-                    id="rsvp-song"
-                    type="text"
-                    value={songRequest}
-                    onChange={(e) => setSongRequest(e.target.value)}
-                    placeholder="The one that gets you on the floor"
-                  />
-                </div>
-              </>
-            )}
+            <div className="rsvp-field">
+              <label>Coming on the wedding train from Patna?</label>
+              <button
+                type="button"
+                className={`rsvp-train-btn${wantsTrainCoach ? ' active' : ''}`}
+                onClick={() => setWantsTrainCoach(!wantsTrainCoach)}
+                aria-pressed={wantsTrainCoach}
+              >
+                🚂 {wantsTrainCoach ? "Count me in — I'm on the train!" : 'Count me in'}
+              </button>
+            </div>
+
+            <div className="rsvp-field">
+              <label htmlFor="rsvp-contact">Phone or email</label>
+              <input
+                id="rsvp-contact"
+                type="text"
+                value={contact}
+                onChange={(e) => setContact(e.target.value)}
+                placeholder="So we can send travel & stay details"
+              />
+            </div>
+
+            <div className="rsvp-field">
+              <label htmlFor="rsvp-song">A song for the Sangeet</label>
+              <input
+                id="rsvp-song"
+                type="text"
+                value={songRequest}
+                onChange={(e) => setSongRequest(e.target.value)}
+                placeholder="The one that gets you on the floor"
+              />
+            </div>
 
             <div className="rsvp-field">
               <label htmlFor="rsvp-message">A message or blessing</label>

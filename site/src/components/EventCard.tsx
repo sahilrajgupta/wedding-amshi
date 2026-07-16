@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { WeddingEvent } from '../data/events';
-import TeamPick from './games/TeamPick';
 import MatkaWhack from './games/MatkaWhack';
 import MiniDholTap from './games/MiniDholTap';
 import GarlandTie from './games/GarlandTie';
@@ -83,7 +82,6 @@ export default function EventCard({ event }: { event: WeddingEvent }) {
             </a>
           </div>
 
-          {event.id === 'haldi' && <TeamPick />}
           {event.id === 'mehendi-sangeet' && (
             <a className="dhol-teaser" href="#dhol" onClick={() => setModalOpen(false)}>
               🥁 Keep the beat going — the full dhol game is below ↓

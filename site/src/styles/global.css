@@ -8,13 +8,22 @@
 html{scroll-behavior:smooth;scroll-padding-top:80px;}
 body{
   font-family:'Corm',Georgia,serif; color:var(--ink); background:var(--paper);
-  line-height:1.6; overflow-x:hidden;
+  line-height:1.6;
   background-image:
     radial-gradient(60% 40% at 10% 0%, rgba(242,172,198,.16), transparent 60%),
     radial-gradient(50% 35% at 95% 10%, rgba(170,193,236,.14), transparent 60%),
     radial-gradient(45% 35% at 50% 100%, rgba(182,211,165,.14), transparent 60%);
 }
-#root{position:relative;overflow-x:hidden;}
+/* No overflow-x:hidden here on purpose: per the CSS overflow spec, pairing
+   any non-"visible" value on one axis forces the *other* axis's used value
+   from "visible" up to "auto" too (you can't mix visible + non-visible
+   across x/y) — so `overflow-x:hidden` on body/#root silently turns them
+   into scroll-container candidates on the y-axis as well, which breaks
+   position:sticky for every descendant (e.g. the pinned story-timeline
+   carousel — it just scrolled normally, never pinned). If a decorative
+   element ever causes horizontal overflow, contain *that* element instead
+   of reaching for overflow-x:hidden up here again. */
+#root{position:relative;}
 
 /* Triggered imperatively by src/lib/screenShake.ts (e.g. rapid dhol taps). */
 @keyframes screen-shake{

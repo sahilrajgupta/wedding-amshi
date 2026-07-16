@@ -19,6 +19,13 @@
   font-family:'Corm';font-weight:500;letter-spacing:.02em;font-size:clamp(17px,2.4vw,21px);
   color:var(--ink-soft);margin-top:6px;
 }
+.btn-hero-rsvp{
+  display:inline-block;margin-top:22px;padding:13px 30px;border-radius:999px;
+  background:linear-gradient(135deg, var(--orchid), #7a4670);color:#fff;
+  font-family:'Jost';font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+  text-decoration:none;box-shadow:var(--shadow-soft);transition:transform .15s ease;
+}
+.btn-hero-rsvp:hover{transform:translateY(-2px);}
 .hero .scratch-reveal{width:min(460px,86vw);height:132px;margin:30px auto 8px;box-shadow:var(--shadow-lift);}
 .hero-date{font-family:'Corm';font-weight:700;font-size:30px;color:var(--rose);letter-spacing:.01em;}
 .hero-verse{font-family:'CormI';font-style:italic;font-size:19px;color:var(--forest);margin-top:4px;}
