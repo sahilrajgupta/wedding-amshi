@@ -12,10 +12,22 @@
   position:absolute;top:50%;left:50%;
   width:min(30vw,380px);aspect-ratio:2/3;
   display:flex;flex-direction:column;justify-content:center;align-items:center;
-  text-align:center;
-  background:var(--cream);border-radius:24px;padding:34px 28px;
+  text-align:center;overflow:hidden;
+  border-radius:24px;padding:34px 28px;
   box-shadow:var(--shadow-lift);
+  /* background is set per-stop inline (see `accent` in data/story.ts) */
 }
+.carousel-card-watermark{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:min(30vw,220px);line-height:1;opacity:.14;pointer-events:none;
+}
+/* A position:absolute element paints above static in-flow siblings
+   regardless of DOM order — without this, the watermark (however low its
+   opacity) would sit visually on top of the text instead of behind it.
+   Making every *other* direct child "positioned" (z-index:auto) puts DOM
+   order back in charge of the stacking, so the watermark (first child,
+   still position:absolute for its own centering) stays behind them. */
+.carousel-card > *:not(.carousel-card-watermark){position:relative;}
 .carousel-card .yr{
   font-family:'Jost';font-weight:500;font-size:13px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;
 }
@@ -73,7 +85,11 @@
   position:absolute;top:6px;left:14px;right:14px;height:2px;
   background-image:repeating-linear-gradient(90deg, var(--lilac) 0 6px, transparent 6px 14px);
 }
-.recap-stop{position:relative;flex:1 1 0;min-width:0;text-align:center;padding:0 6px;}
+.recap-stop{
+  position:relative;flex:1 1 0;min-width:0;text-align:center;
+  border-radius:16px;padding:18px 14px 16px;box-shadow:0 4px 14px rgba(120,70,110,.08);
+  /* background is set per-stop inline (see `accent` in data/story.ts) */
+}
 .recap-dot{
   position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:15px;height:15px;border-radius:50%;
   background:var(--lilac);border:3px solid var(--cream);box-shadow:0 0 0 2px var(--lilac);
@@ -94,8 +110,8 @@
   .recap-track{flex-direction:column;align-items:stretch;gap:26px;padding-top:6px;padding-left:34px;}
   .recap-line{top:6px;bottom:6px;left:9px;right:auto;width:2px;height:auto;
     background-image:repeating-linear-gradient(var(--lilac) 0 6px, transparent 6px 14px);}
-  .recap-stop{width:100%;text-align:left;padding:0;}
-  .recap-dot{top:2px;left:-25px;transform:none;}
+  .recap-stop{width:100%;text-align:left;padding:14px 18px;}
+  .recap-dot{top:14px;left:-25px;transform:none;}
 }
 
 .constant{

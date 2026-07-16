@@ -11,6 +11,8 @@ export interface StoryStop {
    */
   details: string[];
   icon: string;
+  /** Card backdrop gradient [from, to], themed to that chapter's mood/city. */
+  accent: [string, string];
   final?: boolean;
 }
 
@@ -21,6 +23,7 @@ export const storyStops: StoryStop[] = [
     city: 'Where it began',
     note: 'A spark, an ocean apart — she in Chennai, he in the States.',
     icon: '🌆',
+    accent: ['#fdf1e0', '#fbe3c7'],
     details: [
       'It started the way most good stories do — quietly, without either of them realizing it yet. A conversation that should have ended in five minutes stretched into hours, then days, then something neither of them had a name for.',
       'She was in Chennai. He was thousands of miles away in the States. The distance should have made it easy to let go. Instead, it became the first practice run for everything that came after — showing up for each other across time zones, screens, and unreasonable hours of the night.',
@@ -32,6 +35,7 @@ export const storyStops: StoryStop[] = [
     city: 'A near miss',
     note: 'Same feelings, wrong timing. She in London, he in Boston.',
     icon: '🌧️',
+    accent: ['#eef1f7', '#dbe4f0'],
     details: [
       "Three years on, the timing still hadn't caught up to the feeling. She was building a life in London; he was settling into Boston. The same pull was there — just wrapped in enough uncertainty that neither one said it out loud.",
       'Looking back, they call this the chapter where they were both circling the same answer, just from opposite sides of it.',
@@ -43,6 +47,7 @@ export const storyStops: StoryStop[] = [
     city: 'Still not yet',
     note: "Closer this time — but the tide hadn't turned.",
     icon: '🏛️',
+    accent: ['#f5f0e4', '#e8dcc4'],
     details: [
       "Washington D.C. brought them a little closer — geographically, and in every other way. But \"almost\" isn't the same as \"yes,\" and this chapter is the one where they both knew, and still waited.",
       'Some love stories need a long runway. This was theirs.',
@@ -54,6 +59,7 @@ export const storyStops: StoryStop[] = [
     city: 'Undeniable',
     note: 'This is where love stopped pretending. She asked. He was already sure.',
     icon: '✨',
+    accent: ['#fdf0f5', '#f7dcea'],
     details: [
       "This is the one they'll tell their grandkids about. The moment the pretending stopped. She asked the question that had been sitting between them for five years — and he didn't need a second to answer.",
       'Everything before Orlando was practice. Everything after was real.',
@@ -65,6 +71,7 @@ export const storyStops: StoryStop[] = [
     city: 'Forever, begun',
     note: 'Engaged by the sea, in the city where it all made sense.',
     icon: '💍',
+    accent: ['#eafaf7', '#d7f0ea'],
     details: [
       'By the sea, in a city that felt like it was built for exactly this moment, they made it official. Ring, promise, forever — all in one breath.',
       "From here, every plan they made started with the word \"we.\"",
@@ -76,6 +83,7 @@ export const storyStops: StoryStop[] = [
     city: 'Home, at last',
     note: 'To the river, the forest, and each other — for good.',
     icon: '🌊',
+    accent: ['#eef7ec', '#dcefdf'],
     final: true,
     details: [
       'And now, the river. After six cities and five years of almost, near, and finally — this is where they say it in front of everyone who matters: yes, always, for good.',

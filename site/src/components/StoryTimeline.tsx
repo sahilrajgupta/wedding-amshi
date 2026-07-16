@@ -59,9 +59,12 @@ function CarouselStop({
   const cardX = useTransform(distance, (d) => `calc(-50% + ${-d * 36}vw)`);
   const cardY = useTransform(distance, (d) => `calc(-50% + ${-d * 42}vh)`);
 
+  // Each chapter's backdrop is themed to its own mood/city (see
+  // `accent` in data/story.ts) rather than one flat card color for all six.
+  const background = `linear-gradient(165deg, ${stop.accent[0]}, ${stop.accent[1]})`;
   const cardStyle: MotionStyle = isMobile
-    ? { opacity: cardOpacity, scale: cardScale, x: '-50%', y: cardY, zIndex: cardZ }
-    : { opacity: cardOpacity, scale: cardScale, x: cardX, y: '-50%', zIndex: cardZ };
+    ? { opacity: cardOpacity, scale: cardScale, x: '-50%', y: cardY, zIndex: cardZ, background }
+    : { opacity: cardOpacity, scale: cardScale, x: cardX, y: '-50%', zIndex: cardZ, background };
 
   // The breadcrumb trail runs along the *same* axis as the card sweep — a
   // horizontal row docked at the bottom on desktop, a vertical rail in the
@@ -74,6 +77,9 @@ function CarouselStop({
   return (
     <>
       <motion.div className="carousel-card" style={cardStyle}>
+        <span className="carousel-card-watermark" aria-hidden="true">
+          {stop.icon}
+        </span>
         <div className="yr">{stop.year}</div>
         <div className="city">
           {stop.icon} {stop.city}
@@ -92,8 +98,9 @@ function CarouselStop({
 }
 
 function RecapStop({ stop }: { stop: StoryStop }) {
+  const background = `linear-gradient(165deg, ${stop.accent[0]}, ${stop.accent[1]})`;
   return (
-    <div className={`recap-stop${stop.final ? ' final' : ''}`}>
+    <div className={`recap-stop${stop.final ? ' final' : ''}`} style={{ background }}>
       <span className="recap-dot" />
       <Link to={`/story/${stop.slug}`} className="recap-link">
         <div className="yr">{stop.year}</div>
@@ -117,6 +124,7 @@ export default function StoryTimeline({
   const reduced = useReducedMotion();
   const isMobile = useMediaQuery(MOBILE_QUERY);
   const trackRef = useRef<HTMLDivElement>(null);
+  const recapRef = useRef<HTMLDivElement>(null);
   const total = storyStops.length;
   // A tall spacer gives real, controllable scroll distance for the sweep —
   // ~100vh of scroll per stop, plus a little lead-in/lead-out room — rather
@@ -139,23 +147,36 @@ export default function StoryTimeline({
   // section — see HomePage.tsx for why. Watch the *raw* scrollYProgress
   // (not the spring-smoothed one) so the natural-scroll path fires right as
   // the guest actually reaches the end, not lagging behind it.
-  const preCollapseHeightRef = useRef(0);
+  const preCollapseRecapTopRef = useRef<number | null>(null);
+  const triggeredRef = useRef(false);
   useEffect(() => {
     if (revealed) return;
+    triggeredRef.current = false;
     const unsubscribe = scrollYProgress.on('change', (v) => {
+      // Guard against re-firing within the same tick: `revealed` (read via
+      // this closure) only updates on the *next* effect run, but multiple
+      // 'change' events can arrive synchronously before React gets there —
+      // e.g. a direct scroll jump straight to the bottom of the spacer.
+      if (triggeredRef.current) return;
       // Guard against a spurious edge-value event on the very first layout
       // pass, before the spacer's tall inline height has actually been
       // committed/measured — without this, `v` can briefly read as ~1 on
       // mount and collapse the section before any real scrolling happened.
       if (v >= 0.985 && window.scrollY > 200) {
-        // Capture the *whole document's* height before the spacer
-        // disappears, so the compensating scroll can cancel out exactly
-        // what the collapse removes — not the spacer's own raw height,
-        // which overshoots by one viewport height: with position:sticky,
-        // window.scrollY only ever climbs to (spacerHeight - viewportHeight)
-        // while the spacer exists, not the full spacerHeight, so subtracting
-        // the full height clamped scrollY to 0 instead of the right spot.
-        preCollapseHeightRef.current = document.documentElement.scrollHeight;
+        triggeredRef.current = true;
+        // Capture where the (always-rendered) recap section currently sits
+        // on screen, *before* the spacer disappears — this is what the
+        // compensation below restores, and it's measured directly rather
+        // than computed from document heights on purpose: a naive
+        // before/after `scrollHeight` delta looked right in isolation, but
+        // the browser can already auto-clamp `scrollY` the instant the
+        // document shrinks (before this component's own correction ever
+        // runs), so subtracting the *full* computed delta on top of that
+        // already-adjusted position overcorrected down to 0 on a fast,
+        // large scroll jump (e.g. a scrollbar drag). getBoundingClientRect
+        // always reflects the true current state, so comparing it before
+        // and after isn't fooled by whatever the browser already did.
+        preCollapseRecapTopRef.current = recapRef.current?.getBoundingClientRect().top ?? null;
         onRevealed();
       }
     });
@@ -163,19 +184,21 @@ export default function StoryTimeline({
   }, [scrollYProgress, revealed, onRevealed]);
   // Collapsing the spacer removes ~600vh of page height in one frame, which
   // would otherwise fling the scroll position deep into whatever section
-  // now sits where the recap used to be. Correct for it with a *relative*
-  // scroll-by (measured from the actual before/after document height, not
-  // an assumption about the spacer's own size), not an absolute jump to a
-  // fixed element — an earlier version used `scrollIntoView`, which stomped
-  // on an in-flight native smooth scroll (e.g. the hero's "RSVP →" button
-  // scrolling past this section on its way further down the page) and left
-  // it stalled partway. A relative delta only cancels out the exact height
-  // that disappeared, so it doesn't assert a competing destination.
+  // now sits where the recap used to be. Restore the recap section to
+  // exactly the on-screen position it was at before the collapse — not an
+  // absolute jump like `scrollIntoView`, which an earlier version used and
+  // which stomped on an in-flight native smooth scroll (e.g. the hero's
+  // "RSVP →" button scrolling past this section on its way further down the
+  // page) and left it stalled partway. A relative correction only cancels
+  // out the exact visual shift the collapse caused, so it doesn't assert a
+  // competing destination.
   useLayoutEffect(() => {
-    if (revealed && preCollapseHeightRef.current > 0) {
-      const delta = preCollapseHeightRef.current - document.documentElement.scrollHeight;
-      if (delta > 0) window.scrollBy(0, -delta);
-      preCollapseHeightRef.current = 0;
+    if (revealed && preCollapseRecapTopRef.current !== null) {
+      const targetTop = preCollapseRecapTopRef.current;
+      const currentTop = recapRef.current?.getBoundingClientRect().top ?? targetTop;
+      const delta = currentTop - targetTop;
+      if (Math.abs(delta) > 1) window.scrollBy(0, delta);
+      preCollapseRecapTopRef.current = null;
     }
   }, [revealed]);
 
@@ -216,7 +239,7 @@ export default function StoryTimeline({
           always-visible representation. Don't reintroduce a wrapping grid
           of disconnected cards here — that read as unrelated boxes, not a
           timeline. */}
-      <div className="wrap">
+      <div className="wrap" ref={recapRef}>
         <div className="recap-track">
           <div className="recap-line" />
           {storyStops.map((stop) => (
